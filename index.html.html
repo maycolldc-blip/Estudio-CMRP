@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="CMRP">
+<title>CMRP — Preparación</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0e1a;--surface:#111827;--surface2:#1a2235;--border:#1f2d45;
+  --text:#e8edf8;--muted:#64748b;--accent:#3b82f6;
+  --green:#10b981;--red:#ef4444;--yellow:#f59e0b;
+  --p1:#f0a500;--p2:#3d7fff;--p3:#00c896;--p4:#c47aff;--p5:#ff6b6b;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);
+  font-family:'Space Grotesk',sans-serif;font-size:15px;line-height:1.5;}
+#app{display:flex;flex-direction:column;height:100%;max-width:480px;margin:0 auto;}
+.topbar{padding:calc(10px + env(safe-area-inset-top)) 16px 10px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;flex-shrink:0;min-height:52px;}
+.topbar-back{background:none;border:none;color:var(--muted);font-size:1.2rem;
+  cursor:pointer;padding:4px 8px 4px 0;display:none;}
+.topbar-title{font-size:0.95rem;font-weight:600;flex:1;}
+.topbar-badge{font-family:'Fira Mono',monospace;font-size:0.6rem;
+  background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.3);
+  color:var(--accent);padding:3px 9px;border-radius:20px;white-space:nowrap;}
+.content{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:72px;}
+.navbar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;
+  background:var(--surface);border-top:1px solid var(--border);
+  display:flex;padding:6px 0 calc(6px + env(safe-area-inset-bottom));z-index:100;}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;
+  gap:3px;padding:5px 0;cursor:pointer;color:var(--muted);}
+.nav-item.active{color:var(--accent);}
+.nav-icon{font-size:1.25rem;}
+.nav-label{font-size:0.58rem;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;}
+.screen{display:none;padding:16px;}
+.screen.active{display:block;animation:fadeIn 0.2s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+/* HOME */
+.hero{padding:18px 0 14px;text-align:center;}
+.hero-tag{font-family:'Fira Mono',monospace;font-size:0.6rem;color:var(--accent);
+  letter-spacing:0.15em;text-transform:uppercase;margin-bottom:8px;}
+.hero h1{font-size:1.65rem;font-weight:700;line-height:1.15;margin-bottom:6px;}
+.hero h1 span{color:var(--accent);}
+.hero p{color:var(--muted);font-size:0.82rem;}
+.sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
+.sum-item{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:10px;text-align:center;}
+.sum-val{font-size:1.2rem;font-weight:700;}
+.sum-lbl{font-size:0.6rem;color:var(--muted);margin-top:2px;}
+.sec-label{font-family:'Fira Mono',monospace;font-size:0.62rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;}
+.pilar-list{display:flex;flex-direction:column;gap:8px;}
+.pc{background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--color);border-radius:var(--r);
+  padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;}
+.pc:active{transform:scale(0.98);}
+.pc-info{flex:1;min-width:0;}
+.pc-name{font-weight:600;font-size:0.88rem;margin-bottom:2px;}
+.pc-meta{font-family:'Fira Mono',monospace;font-size:0.62rem;color:var(--muted);}
+.pc-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;}
+.pc-pct{font-family:'Fira Mono',monospace;font-size:0.72rem;font-weight:600;color:var(--color);}
+.mbar{width:52px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.mbar-fill{height:100%;border-radius:2px;background:var(--color);}
+.btn-main{width:100%;margin-top:14px;padding:13px;border:none;border-radius:var(--r);
+  background:var(--accent);color:#fff;font-family:'Space Grotesk',sans-serif;
+  font-size:0.9rem;font-weight:600;cursor:pointer;}
+.btn-main:active{transform:scale(0.97);}
+/* MODE TABS */
+.mode-tabs{display:flex;gap:4px;background:var(--surface);border-radius:10px;
+  padding:4px;margin-bottom:16px;}
+.mode-tab{flex:1;padding:8px;border:none;border-radius:8px;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;font-size:0.8rem;font-weight:500;
+  background:transparent;color:var(--muted);}
+.mode-tab.active{background:var(--accent);color:#fff;}
+/* MENU LIST */
+.menu-list{display:flex;flex-direction:column;gap:8px;}
+.mc{background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--color);border-radius:var(--r);
+  padding:12px 14px;cursor:pointer;display:flex;align-items:center;gap:10px;}
+.mc:active{transform:scale(0.98);}
+.mc-dot{width:8px;height:8px;border-radius:50%;background:var(--color);flex-shrink:0;}
+.mc-info{flex:1;}
+.mc-name{font-weight:600;font-size:0.88rem;}
+.mc-sub{font-size:0.72rem;color:var(--muted);}
+/* PILAR HEADER */
+.ph{margin-bottom:14px;}
+.ph-tag{font-family:'Fira Mono',monospace;font-size:0.6rem;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:4px;}
+.ph-title{font-size:1.15rem;font-weight:700;}
+.ph-desc{font-size:0.82rem;color:var(--muted);line-height:1.55;margin-top:6px;}
+/* TEMAS */
+.tema{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);margin-bottom:8px;overflow:hidden;}
+.tema-h{padding:12px 14px;display:flex;align-items:center;gap:10px;
+  cursor:pointer;user-select:none;}
+.tema-h:active{background:var(--surface2);}
+.tema-code{font-family:'Fira Mono',monospace;font-size:0.65rem;
+  background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:4px;flex-shrink:0;}
+.tema-title{font-size:0.88rem;font-weight:600;flex:1;}
+.tema-arr{color:var(--muted);font-size:0.7rem;transition:transform 0.2s;flex-shrink:0;}
+.tema.open .tema-arr{transform:rotate(180deg);}
+.tema-body{display:none;padding:0 14px 14px;}
+.tema.open .tema-body{display:block;}
+/* SUBTEMAS */
+.sub{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;
+  overflow:hidden;background:var(--bg);}
+.sub-h{padding:10px 12px;cursor:pointer;display:flex;align-items:center;gap:8px;user-select:none;}
+.sub-arr{color:var(--accent);font-size:0.65rem;transition:transform 0.2s;flex-shrink:0;}
+.sub.open .sub-arr{transform:rotate(90deg);}
+.sub-title{font-size:0.84rem;font-weight:500;flex:1;}
+.sub-body{display:none;padding:0 12px 12px;}
+.sub.open .sub-body{display:block;animation:fadeIn 0.2s ease;}
+.ctext{font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:12px;}
+.ctext strong{color:var(--text);}
+.fbox{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25);
+  border-radius:8px;padding:10px 12px;margin-bottom:10px;}
+.flabel{font-family:'Fira Mono',monospace;font-size:0.58rem;color:var(--accent);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.ftext{font-family:'Fira Mono',monospace;font-size:0.78rem;color:var(--text);
+  line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+.ebox{background:rgba(0,200,150,0.06);border:1px solid rgba(0,200,150,0.2);
+  border-radius:8px;padding:10px 12px;}
+.elabel{font-family:'Fira Mono',monospace;font-size:0.58rem;color:var(--green);
+  text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+.etext{font-size:0.8rem;color:var(--muted);line-height:1.7;
+  white-space:pre-wrap;word-break:break-word;}
+.etext strong{color:var(--green);}
+/* QUIZ */
+.qhdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.btn-bk{background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:5px 11px;color:var(--muted);font-size:0.78rem;cursor:pointer;white-space:nowrap;}
+.qpw{flex:1;}
+.qbar{height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.qbar-fill{height:100%;border-radius:2px;background:var(--accent);transition:width 0.3s;}
+.qcnt{font-family:'Fira Mono',monospace;font-size:0.6rem;color:var(--muted);
+  text-align:right;margin-top:3px;}
+.qtag{display:inline-block;font-family:'Fira Mono',monospace;font-size:0.62rem;
+  padding:2px 9px;border-radius:20px;margin-bottom:10px;
+  background:rgba(255,255,255,0.05);color:var(--muted);}
+.qtext{font-size:0.93rem;font-weight:500;line-height:1.6;margin-bottom:18px;}
+.qopts{display:flex;flex-direction:column;gap:8px;}
+.qopt{background:var(--surface);border:1.5px solid var(--border);
+  border-radius:12px;padding:11px 13px;cursor:pointer;
+  display:flex;align-items:flex-start;gap:9px;
+  font-size:0.86rem;line-height:1.5;}
+.qopt:active:not(.dis){transform:scale(0.98);}
+.qopt.ok{border-color:var(--green);background:rgba(16,185,129,0.1);}
+.qopt.fail{border-color:var(--red);background:rgba(239,68,68,0.1);}
+.qopt.rev{border-color:var(--green);background:rgba(16,185,129,0.07);}
+.qopt.dis{cursor:default;}
+.ol{font-family:'Fira Mono',monospace;font-size:0.7rem;min-width:20px;height:20px;
+  border-radius:5px;background:rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.qopt.ok .ol{background:var(--green);color:#000;}
+.qopt.fail .ol{background:var(--red);color:#fff;}
+.qopt.rev .ol{background:var(--green);color:#000;}
+.qexp{margin-top:12px;padding:10px 12px;background:rgba(16,185,129,0.06);
+  border-left:3px solid var(--green);border-radius:0 8px 8px 0;
+  font-size:0.81rem;color:var(--muted);line-height:1.6;display:none;}
+.qexp.show{display:block;animation:fadeIn 0.25s ease;}
+.btn-next{width:100%;margin-top:14px;padding:12px;border:none;border-radius:12px;
+  background:var(--accent);color:#fff;font-family:'Space Grotesk',sans-serif;
+  font-size:0.88rem;font-weight:600;cursor:pointer;display:none;}
+.btn-next.show{display:block;}
+/* RESULT */
+.rescard{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:22px;text-align:center;margin-top:16px;}
+.respct{font-size:3rem;font-weight:700;line-height:1;}
+.reslbl{font-size:0.95rem;font-weight:600;margin:5px 0 14px;}
+.resrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.rri{background:var(--bg);border-radius:8px;padding:9px;}
+.rrv{font-size:1.1rem;font-weight:700;}
+.rrl{font-size:0.6rem;color:var(--muted);margin-top:2px;}
+.btn-retry{width:100%;padding:12px;border:1px solid var(--border);
+  border-radius:12px;background:transparent;color:var(--text);
+  font-family:'Space Grotesk',sans-serif;font-size:0.88rem;cursor:pointer;margin-bottom:8px;}
+.btn-home{width:100%;padding:12px;border:none;border-radius:12px;
+  background:var(--accent);color:#fff;font-family:'Space Grotesk',sans-serif;
+  font-size:0.88rem;font-weight:600;cursor:pointer;}
+/* STATS */
+.spc{background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px;margin-bottom:8px;}
+.sph{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.spd{width:9px;height:9px;border-radius:50%;}
+.spn{font-weight:600;font-size:0.85rem;flex:1;}
+.spp{font-family:'Fira Mono',monospace;font-size:0.75rem;font-weight:600;}
+.spbar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:10px;}
+.spfill{height:100%;border-radius:3px;}
+.sprow{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.spstat{background:var(--bg);border-radius:8px;padding:8px;text-align:center;}
+.spsv{font-size:0.95rem;font-weight:700;}
+.spsl{font-size:0.58rem;color:var(--muted);margin-top:2px;}
+.btn-reset{width:100%;margin-top:14px;padding:11px;
+  border:1px solid rgba(239,68,68,0.3);border-radius:12px;
+  background:transparent;color:var(--red);
+  font-family:'Space Grotesk',sans-serif;font-size:0.83rem;cursor:pointer;}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <button class="topbar-back" id="tbk" onclick="goBack()">←</button>
+    <div class="topbar-title" id="ttitle">CMRP Prep</div>
+    <div class="topbar-badge" id="tbadge">SMRP BOK</div>
+  </div>
+  <div class="content">
+    <!-- HOME -->
+    <div class="screen active" id="sc-home">
+      <div class="hero">
+        <div class="hero-tag">Certified Maintenance &amp; Reliability Professional</div>
+        <h1>Prepárate para el <span>CMRP</span></h1>
+        <p>5 pilares · Conceptos profundos · Preguntas tipo examen</p>
+      </div>
+      <div class="sum-grid">
+        <div class="sum-item"><div class="sum-val" id="s-resp">0</div><div class="sum-lbl">Respondidas</div></div>
+        <div class="sum-item"><div class="sum-val" style="color:var(--green)" id="s-ok">0</div><div class="sum-lbl">Correctas</div></div>
+        <div class="sum-item"><div class="sum-val" style="color:var(--yellow)" id="s-pct">0%</div><div class="sum-lbl">Precisión</div></div>
+      </div>
+      <div class="sec-label">Pilares del BOK</div>
+      <div class="pilar-list" id="pilar-list"></div>
+      <button class="btn-main" onclick="examAll()">🎯 Examen Simulado — Todos los Pilares</button>
+    </div>
+    <!-- PILAR -->
+    <div class="screen" id="sc-pilar">
+      <div class="mode-tabs" id="mtabs">
+        <button class="mode-tab active" id="mt-c" onclick="setMode('c')">📚 Conceptos</button>
+        <button class="mode-tab" id="mt-p" onclick="setMode('p')">📝 Practicar</button>
+      </div>
+      <div id="pcontent"></div>
+    </div>
+  </div>
+  <div class="navbar">
+    <div class="nav-item active" id="nv-inicio" onclick="navTo('inicio')"><div class="nav-icon">🏠</div><div class="nav-label">Inicio</div></div>
+    <div class="nav-item" id="nv-estudiar" onclick="navTo('estudiar')"><div class="nav-icon">📚</div><div class="nav-label">Estudiar</div></div>
+    <div class="nav-item" id="nv-practicar" onclick="navTo('practicar')"><div class="nav-icon">📝</div><div class="nav-label">Practicar</div></div>
+    <div class="nav-item" id="nv-stats" onclick="navTo('stats')"><div class="nav-icon">📊</div><div class="nav-label">Progreso</div></div>
+  </div>
+</div>
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────────────
+const CONTENT = {
+  pilares: [
+    {
+      id: 'p1',
+      nombre: 'Negocio & Gestión',
+      peso: '18%',
+      color: '#f0a500',
+      desc: 'Cubre la creación y administración de la dirección estratégica de mantenimiento y confiabilidad, la medición del desempeño, la gestión financiera y la comunicación con stakeholders.',
+      temas: [
+        {
+          codigo: '1.1',
+          titulo: 'KPIs e Indicadores de Desempeño',
+          subtemas: [
+            {
+              titulo: 'MTBF — Mean Time Between Failures',
+              contenido: 'El MTBF es el tiempo promedio entre dos fallas consecutivas de un equipo reparable. Mide directamente la <strong>frecuencia de fallas</strong>: a mayor MTBF, más confiable es el equipo.',
+              formula: 'MTBF = Tiempo total de operación ÷ Número de fallas',
+              ejemplo: 'Un compresor operó 2,000 horas y presentó 5 fallas.\nMTBF = 2,000 ÷ 5 = <strong>400 horas/falla</strong>\nClase mundial para equipos críticos: MTBF > 2,000 h'
+            },
+            {
+              titulo: 'MTTR — Mean Time To Repair',
+              contenido: 'El MTTR es el tiempo promedio que tarda el equipo de mantenimiento en restaurar el equipo a condición operativa después de una falla. Mide la <strong>eficiencia de la respuesta de reparación</strong>.',
+              formula: 'MTTR = Tiempo total de reparación ÷ Número de reparaciones',
+              ejemplo: 'En 5 fallas, los tiempos de reparación fueron: 2h, 3h, 1h, 4h, 2h.\nTiempo total = 12 horas\nMTTR = 12 ÷ 5 = <strong>2.4 horas/reparación</strong>'
+            },
+            {
+              titulo: 'Disponibilidad (Availability)',
+              contenido: 'La Disponibilidad mide el porcentaje del tiempo que un equipo está en condición de operar cuando se requiere. Es el KPI más importante para la gestión de activos productivos.',
+              formula: 'A = MTBF ÷ (MTBF + MTTR) × 100%',
+              ejemplo: 'MTBF = 400 h, MTTR = 2.4 h\nA = 400 ÷ (400 + 2.4) = 400 ÷ 402.4 = <strong>99.4%</strong>\n\nClase mundial: A > 95% para equipos críticos\nAlternativa: A = (Tiempo disponible ÷ Tiempo total calendario) × 100%'
+            },
+            {
+              titulo: 'OEE — Overall Equipment Effectiveness',
+              contenido: 'El OEE (Efectividad Global del Equipo) es el KPI principal del programa TPM. Combina tres dimensiones del desempeño del equipo productivo en un único indicador.',
+              formula: 'OEE = Disponibilidad × Rendimiento × Calidad\n\nDisponibilidad = (Tiempo planeado - Paros) ÷ Tiempo planeado\nRendimiento = Producción real ÷ Producción teórica al 100%\nCalidad = Unidades buenas ÷ Unidades totales producidas',
+              ejemplo: 'Disponibilidad = 85%, Rendimiento = 92%, Calidad = 98%\nOEE = 0.85 × 0.92 × 0.98 = <strong>76.6%</strong>\n\nClase mundial: OEE ≥ 85%\nDesglose típico clase mundial: D≥90%, R≥95%, C≥99%'
+            },
+            {
+              titulo: 'Schedule Compliance — Cumplimiento del Programa',
+              contenido: 'Mide el porcentaje de órdenes de trabajo ejecutadas según lo programado en la semana. Es el termómetro diario/semanal de la eficiencia operativa del departamento.',
+              formula: 'SC = (OT ejecutadas según programa ÷ OT programadas) × 100%',
+              ejemplo: 'Se programaron 80 OT para la semana.\nSe ejecutaron según programa: 68 OT.\nSC = 68 ÷ 80 = <strong>85%</strong>\n\nClase mundial: SC ≥ 90%\nUn SC bajo indica: falta de materiales, interferencia de producción o mala planificación.'
+            },
+            {
+              titulo: 'PM Compliance — Cumplimiento de PM',
+              contenido: 'Mide el porcentaje de mantenimientos preventivos ejecutados a tiempo dentro del período programado. Refleja la disciplina del programa de mantenimiento preventivo.',
+              formula: 'PM Compliance = (PM ejecutados a tiempo ÷ PM programados) × 100%',
+              ejemplo: 'En el mes se programaron 120 PM.\nSe ejecutaron a tiempo: 108 PM.\nPM Compliance = 108 ÷ 120 = <strong>90%</strong>\n\nClase mundial: PM Compliance ≥ 95%'
+            },
+            {
+              titulo: 'Backlog de Mantenimiento',
+              contenido: 'El backlog es el acumulado de trabajo aprobado, planificado y listo para ser ejecutado. Se expresa en semanas de trabajo disponible para el equipo.',
+              formula: 'Backlog (semanas) = Horas-hombre pendientes ÷ Capacidad semanal (h-h)',
+              ejemplo: 'Trabajo pendiente: 350 horas-hombre\nCapacidad semanal: 200 horas-hombre\nBacklog = 350 ÷ 200 = <strong>1.75 semanas</strong>\n\nRango saludable: 2 a 4 semanas\n• <2 semanas: exceso de capacidad o falta de trabajo preparado\n• >4 semanas: acumulación problemática, posible reactividad'
+            },
+            {
+              titulo: 'Wrench Time — Tiempo Productivo del Técnico',
+              contenido: 'El Wrench Time (tiempo de llave) es el porcentaje del tiempo de turno que el técnico pasa ejecutando trabajo físico productivo. Es el indicador de eficiencia del sistema de planificación.',
+              formula: 'Wrench Time = Horas de trabajo productivo ÷ Horas totales del turno × 100%',
+              ejemplo: 'Técnico con turno de 8 horas. Tiempo en trabajo productivo: 2.8 horas\nWrench Time = 2.8 ÷ 8 = <strong>35%</strong>\n\nMedia de la industria: 25-35%\nClase mundial: >55%\n\nPérdidas típicas del Wrench Time:\n• Esperar materiales no disponibles\n• Desplazamiento al sitio de trabajo\n• Búsqueda de información o planos\n• Reuniones y papeleo\n• Trabajo rehecho (retrabajo)'
+            },
+            {
+              titulo: 'Costo de Mantenimiento / RAV',
+              contenido: 'El RAV (Replacement Asset Value) es el costo de reemplazar todos los activos productivos de la planta. El ratio Costo de Mantenimiento/RAV es un KPI financiero clave para el benchmarking.',
+              formula: 'Costo M&R / RAV = Costo total anual de mantenimiento ÷ Valor de reemplazo de activos × 100%',
+              ejemplo: 'Costo total de mantenimiento anual: $5,000,000\nValor de reemplazo de activos (RAV): $250,000,000\nRatio = 5,000,000 ÷ 250,000,000 = <strong>2.0%</strong> ✓ Clase mundial\n\nReferencia clase mundial: 1% a 3%\n• <1%: posible mantenimiento insuficiente (riesgo de falla)\n• >5%: equipos envejecidos o programa de confiabilidad deficiente'
+            }
+          ]
+        },
+        {
+          codigo: '1.2',
+          titulo: 'Gestión Financiera y LCC',
+          subtemas: [
+            {
+              titulo: 'LCC — Life Cycle Cost (Costo del Ciclo de Vida)',
+              contenido: 'El LCC es el costo total de un activo desde su adquisición hasta su disposición final. Es la herramienta fundamental para tomar decisiones de inversión en activos.',
+              formula: 'LCC = Costo de Adquisición + Costo de Instalación + Costo de Operación + Costo de Mantenimiento + Costo de Disposición',
+              ejemplo: 'Bomba A: Precio $30,000 | Energía/año $8,000 | Mantenimiento/año $2,000 | Vida útil 15 años\nLCC_A = 30,000 + (8,000 + 2,000) × 15 = 30,000 + 150,000 = <strong>$180,000</strong>\n\nBomba B: Precio $20,000 | Energía/año $12,000 | Mantenimiento/año $3,000 | Vida útil 15 años\nLCC_B = 20,000 + (12,000 + 3,000) × 15 = 20,000 + 225,000 = <strong>$245,000</strong>\n\nDecisión: La bomba A es mejor opción aunque cuesta $10,000 más inicialmente.\nEl 70-80% del LCC se determina en la fase de DISEÑO/ESPECIFICACIÓN.'
+            },
+            {
+              titulo: 'CAPEX vs OPEX',
+              contenido: 'CAPEX (Capital Expenditure) son inversiones en activos de larga vida útil que se capitalizan y deprecian contablemente. OPEX (Operational Expenditure) son gastos operativos recurrentes del día a día.',
+              formula: 'No hay fórmula única, es una clasificación contable',
+              ejemplo: 'CAPEX (se capitaliza y deprecia):\n• Compra de un nuevo compresor: $500,000\n• Modernización de un turbocompresor: $150,000\n• Instalación de un sistema de monitoreo online\n\nOPEX (se gasta en el período):\n• Lubricantes y repuestos consumibles\n• Mano de obra de mantenimiento\n• Reparaciones que restauran la condición original\n• Costos de energía del proceso\n\nRegla práctica: Si el gasto MEJORA el activo más allá de su capacidad original → CAPEX. Si solo RESTAURA la capacidad original → OPEX.'
+            },
+            {
+              titulo: 'ROI — Return on Investment',
+              contenido: 'El ROI mide el retorno económico de una inversión en mantenimiento. Es el argumento principal para justificar proyectos de confiabilidad ante la gerencia financiera.',
+              formula: 'ROI = (Beneficios totales obtenidos - Costo total del programa) ÷ Costo total del programa × 100%',
+              ejemplo: 'Inversión en programa de PdM: $120,000/año\nBeneficios obtenidos:\n• Paros evitados: $180,000\n• Reducción de correctivo: $60,000\n• Extensión de vida de componentes: $30,000\nTotal beneficios: $270,000\n\nROI = (270,000 - 120,000) ÷ 120,000 = 150,000 ÷ 120,000 = <strong>125%</strong>\nPayback = 120,000 ÷ 150,000 = <strong>0.8 años (≈10 meses)</strong>'
+            },
+            {
+              titulo: 'VPN — Valor Presente Neto',
+              contenido: 'El VPN descuenta los flujos de caja futuros al presente usando la tasa de costo de capital. Es la métrica más rigurosa para comparar proyectos de inversión con diferentes horizontes de tiempo.',
+              formula: 'VPN = Σ [Flujo de caja del período t ÷ (1 + tasa)^t] - Inversión inicial\n\nSi VPN > 0 → el proyecto genera valor → se aprueba',
+              ejemplo: 'Proyecto de mejora de confiabilidad: Inversión $100,000\nAhorros anuales: $40,000 durante 4 años\nTasa de descuento: 10%\n\nVPN = 40,000/(1.10)^1 + 40,000/(1.10)^2 + 40,000/(1.10)^3 + 40,000/(1.10)^4 - 100,000\nVPN = 36,364 + 33,058 + 30,053 + 27,321 - 100,000\nVPN = 126,796 - 100,000 = <strong>$26,796 > 0 ✓</strong> → Proyecto aprobado'
+            }
+          ]
+        },
+        {
+          codigo: '1.3',
+          titulo: 'Gestión Estratégica y Normas',
+          subtemas: [
+            {
+              titulo: 'ISO 55001 — Gestión de Activos',
+              contenido: 'La norma ISO 55001 establece los requisitos para un Sistema de Gestión de Activos. Define la gestión de activos como las "actividades coordinadas de una organización para realizar valor de los activos", balanceando costos, riesgos y desempeño a lo largo del ciclo de vida.',
+              formula: 'No aplica fórmula — es un marco de gestión',
+              ejemplo: 'Estructura ISO 55001:\n• SAMP (Strategic Asset Management Plan): plan estratégico de gestión de activos, alineado con los objetivos organizacionales\n• AMP (Asset Management Plan): plan táctico para activos o grupos de activos específicos\n• Política de gestión de activos: principios y compromisos de la organización\n\nPrincipios clave:\n• El valor es tangible e intangible (no solo monetario)\n• El riesgo se gestiona, no se elimina\n• El liderazgo es el factor más crítico de éxito'
+            },
+            {
+              titulo: 'Modelo ADKAR — Gestión del Cambio',
+              contenido: 'ADKAR es un modelo de gestión del cambio individual desarrollado por Prosci. Define los 5 elementos que una persona necesita para realizar un cambio de comportamiento exitoso y sostenible.',
+              formula: 'ADKAR = Awareness + Desire + Knowledge + Ability + Reinforcement',
+              ejemplo: 'Implementación de un nuevo programa de PdM:\n\nA — Awareness: el técnico entiende POR QUÉ se necesita el PdM (pérdidas actuales, paros no planeados)\nD — Desire: el técnico QUIERE participar en el programa (ve los beneficios para él)\nK — Knowledge: el técnico SABE CÓMO usar el equipo de vibraciones\nA — Ability: el técnico PUEDE hacer el análisis en condiciones reales de trabajo\nR — Reinforcement: el programa se sostiene con reconocimiento, seguimiento y consecuencias\n\n⚠️ Si el Reinforcement falla, la organización regresa a los viejos hábitos'
+            },
+            {
+              titulo: 'Análisis de Criticidad de Equipos',
+              contenido: 'El análisis de criticidad prioriza los equipos de la planta según el riesgo que representa su falla, para asignar las estrategias de mantenimiento más apropiadas a cada nivel de criticidad.',
+              formula: 'Criticidad = Frecuencia de falla × Consecuencia de falla\n\nConsecuencia = f(Seguridad, Medioambiente, Producción, Calidad, Costo)',
+              ejemplo: 'Criterios de clasificación:\n\n🔴 Crítico A:\n• Falla genera riesgo de seguridad o ambiental grave, O\n• Paro de producción >4 horas sin alternativa, O\n• Daño >$50,000 por evento\n→ Estrategia: PdM + PM + Spare parts en stock\n\n🟡 Importante B:\n• Impacto moderado en producción o calidad\n• Alternativas disponibles\n→ Estrategia: PM + CBM selectivo\n\n🟢 No crítico C:\n• Bajo impacto operacional\n• Fácil reemplazo o reparación\n→ Estrategia: PM básico o Run-to-Failure\n\nNota: la criticidad se define por las CONSECUENCIAS, no por el costo del equipo.'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p2',
+      nombre: 'Confiabilidad del Proceso',
+      peso: '16%',
+      color: '#3d7fff',
+      desc: 'Aplica principios de confiabilidad al proceso productivo: manufactura esbelta, análisis de riesgos del proceso y herramientas para detectar y eliminar pérdidas operacionales.',
+      temas: [
+        {
+          codigo: '2.1',
+          titulo: 'Lean Manufacturing',
+          subtemas: [
+            {
+              titulo: 'Los 8 Desperdicios (Mudas) — TIMWOODS',
+              contenido: 'En Lean Manufacturing, un desperdicio (muda) es cualquier actividad que consume recursos sin agregar valor desde la perspectiva del cliente. Identificarlos y eliminarlos es el objetivo central del Lean.',
+              formula: 'TIMWOODS = Transport · Inventory · Motion · Waiting · Overproduction · Overprocessing · Defects · Skills',
+              ejemplo: '1. 🚚 Transporte: mover piezas innecesariamente entre estaciones\n2. 📦 Inventario: materia prima, WIP o producto terminado en exceso\n3. 🚶 Movimiento: desplazamiento innecesario del operador para buscar herramientas\n4. ⏳ Espera: técnico esperando materiales, permisos, información o disponibilidad del equipo\n5. 📈 Sobreproducción: producir más de lo que el cliente necesita en ese momento\n6. ⚙️ Sobreprocesamiento: pasos adicionales que el cliente no valora ni paga\n7. ❌ Defectos: retrabajo, scrap, reparaciones\n8. 🧠 Talento desaprovechado: no usar las ideas y capacidades del personal\n\n⚠️ La Sobreproducción es considerada el peor desperdicio porque genera todos los demás.'
+            },
+            {
+              titulo: 'OEE — Las 6 Grandes Pérdidas',
+              contenido: 'Las 6 grandes pérdidas del TPM se agrupan en las 3 dimensiones del OEE. Identificarlas y eliminarlas es el objetivo del programa de mejoras enfocadas.',
+              formula: 'OEE = Disponibilidad × Rendimiento × Calidad',
+              ejemplo: 'Pérdidas de DISPONIBILIDAD:\n1. Fallas de equipo (paros no planeados >10 min)\n2. Cambios de formato y ajustes (setup time)\n\nPérdidas de RENDIMIENTO:\n3. Micro-paros y operación en vacío (<10 min, no generan OT)\n4. Velocidad reducida (producción por debajo del diseño)\n\nPérdidas de CALIDAD:\n5. Defectos en proceso y retrabajo\n6. Pérdidas por arranque (scrap hasta estabilizar el proceso)\n\nEjemplo de cálculo:\nDisponibilidad = (480 min - 60 min de paros) ÷ 480 min = 87.5%\nRendimiento = 400 piezas reales ÷ 440 piezas al 100% velocidad = 90.9%\nCalidad = 390 piezas buenas ÷ 400 piezas totales = 97.5%\nOEE = 0.875 × 0.909 × 0.975 = <strong>77.5%</strong>'
+            },
+            {
+              titulo: 'TPM — Mantenimiento Productivo Total',
+              contenido: 'El TPM es una filosofía de gestión que involucra a todos los niveles de la organización en el mantenimiento de los equipos. Su diferenciador principal es el Mantenimiento Autónomo: los operadores son responsables del cuidado básico de sus equipos.',
+              formula: 'Los 8 pilares del TPM',
+              ejemplo: '8 Pilares del TPM:\n1. 🔧 Mantenimiento Autónomo: operadores limpian, inspeccionan, lubrican sus equipos\n2. 📅 Mantenimiento Planeado: departamento de mantenimiento programa y ejecuta PM/PdM\n3. 💡 Mejoras Enfocadas (Kobetsu Kaizen): equipos multifuncionales eliminan pérdidas específicas de OEE\n4. 📚 Educación y Entrenamiento: capacitación técnica a operadores y técnicos\n5. 🛡️ Salud, Seguridad y Medioambiente: cero accidentes, cero contaminación\n6. 🏭 Gestión Temprana de Equipos: aprendizajes del PM actual informan el diseño de nuevos equipos\n7. ✅ Mantenimiento de Calidad: el estado del equipo garantiza la calidad del producto\n8. 🏢 TPM Administrativo: eliminar desperdicios en los procesos de soporte (compras, finanzas, RRHH)\n\nKPI principal del TPM: OEE ≥ 85%\n7 pasos del Mantenimiento Autónomo: Limpieza inicial → Eliminar fuentes de suciedad → Estándares de limpieza y lubricación → Inspección general → Inspección autónoma → Estandarización → Gestión autónoma'
+            },
+            {
+              titulo: 'SMED — Single-Minute Exchange of Die',
+              contenido: 'SMED es una metodología para reducir el tiempo de cambio de formato o configuración de un equipo a menos de 10 minutos. Reduce el tiempo de paro y aumenta la flexibilidad de producción.',
+              formula: 'No aplica fórmula — es una metodología de mejora',
+              ejemplo: 'El SMED clasifica las actividades en:\n\nACTIVIDADES INTERNAS: solo pueden realizarse con la máquina PARADA\nEjemplo: reemplazar el molde, ajustar la altura de la prensa\n\nACTIVIDADES EXTERNAS: pueden realizarse con la máquina EN MARCHA\nEjemplo: preparar las herramientas del próximo cambio, calentar el molde nuevo\n\nMejora SMED:\nAntes: 120 min de paro (60 min internas + 60 min que podrían ser externas)\nDespués: 60 min de paro (convirtiendo las 60 min "externas" en actividades previas)\nResultado: Tiempo de paro reducido a la mitad'
+            },
+            {
+              titulo: 'VSM — Value Stream Mapping',
+              contenido: 'El VSM es una herramienta Lean que mapea visualmente el flujo completo de materiales e información desde el proveedor hasta el cliente, identificando desperdicios, cuellos de botella y oportunidades de mejora.',
+              formula: 'Lead Time = Suma de todos los tiempos de proceso + tiempos de espera entre procesos',
+              ejemplo: 'Proceso de fabricación de piezas:\n\nEstado ACTUAL:\nProveedor → Almacén MP (2 días) → Mecanizado (30 min/pieza) → Cola (1 día) → Ensamble (20 min/pieza) → Cola (1 día) → Almacén PT (1 día) → Cliente\nLead Time actual = 5 días para una pieza\nTiempo de valor agregado = 50 min\n\nEstado FUTURO (con VSM):\n• Eliminar colas intermedias con producción pull\n• Reducir lead time a 1 día\n• El VSM identifica dónde están las esperas y el inventario en exceso'
+            }
+          ]
+        },
+        {
+          codigo: '2.2',
+          titulo: 'Análisis de Riesgos del Proceso',
+          subtemas: [
+            {
+              titulo: 'HAZOP — Hazard and Operability Study',
+              contenido: 'El HAZOP es la herramienta más usada para identificar riesgos en procesos industriales. Utiliza palabras guía aplicadas a parámetros de proceso para identificar sistemáticamente todas las posibles desviaciones peligrosas.',
+              formula: 'Desviación = Palabra Guía + Parámetro de Proceso',
+              ejemplo: 'Palabras guía HAZOP:\nNO / SIN: ausencia total del parámetro\nMÁS: más de la intención de diseño\nMENOS: menos de la intención de diseño\nTAMBIÉN: presencia de algo adicional\nPARTE DE: composición diferente\nINVERSO: sentido contrario\nDISTINTO A: algo completamente diferente\n\nEjemplo de análisis HAZOP - Línea de transferencia de fluido:\nParámetro: FLUJO\n\n| Palabra | Desviación | Causa posible | Consecuencia |\n|---------|-----------|--------------|---------------|\n| No | Sin flujo | Válvula cerrada, bomba parada | Paro de proceso, pérdida de producto |\n| Más | Flujo alto | Falla válvula de control | Golpe de ariete, ruptura de línea |\n| Menos | Flujo bajo | Filtro obstruido, cavitación | Producto fuera de especificación |\n| Inverso | Flujo reverso | Válvula antirretorno fallida | Contaminación, daño a equipos |'
+            },
+            {
+              titulo: 'SIL — Safety Integrity Level',
+              contenido: 'El SIL (Nivel de Integridad de Seguridad) es una medida de la reducción de riesgo que debe proveer una Función Instrumentada de Seguridad (SIF/SIS). Se define según las normas IEC 61508 y IEC 61511.',
+              formula: 'PFD (Probability of Failure on Demand) determina el nivel SIL',
+              ejemplo: 'Niveles SIL y su reducción de riesgo:\n\n| Nivel SIL | Reducción de riesgo | PFD |\n|-----------|---------------------|-----|\n| SIL 1 | 10 a 100 veces | 0.1 a 0.01 |\n| SIL 2 | 100 a 1,000 veces | 0.01 a 0.001 |\n| SIL 3 | 1,000 a 10,000 veces | 0.001 a 0.0001 |\n| SIL 4 | 10,000 a 100,000 veces | 0.0001 a 0.00001 |\n\nEjemplo: Un sistema de paro de emergencia (ESD) en un reactor exotérmico requiere SIL 2. Esto significa que el sistema debe fallar a lo sumo 1 vez en 100-1,000 demandas de actuación.'
+            },
+            {
+              titulo: 'Análisis Bow-Tie',
+              contenido: 'El análisis Bow-Tie visualiza en un solo diagrama las causas que pueden llevar a un evento peligroso (top event) y las consecuencias que puede generar, junto con las barreras de control en ambos lados.',
+              formula: 'No aplica fórmula — es una herramienta visual de análisis de riesgos',
+              ejemplo: 'Estructura del Bow-Tie:\n\nIZQUIERDA (Prevención):\n• Amenaza 1 → Barrera de prevención → ┐\n• Amenaza 2 → Barrera de prevención → ┤ → TOP EVENT\n• Amenaza 3 → Barrera de prevención → ┘\n\nCENTRO: TOP EVENT (Pérdida de contención de gas)\n\nDERECHA (Mitigación):\n• Top Event → Barrera de mitigación → Consecuencia 1 (incendio)\n           → Barrera de mitigación → Consecuencia 2 (explosión)\n           → Barrera de mitigación → Consecuencia 3 (intoxicación)\n\nEjemplo real: Fuga de gas en compresor\nAmenazas: sello desgastado, vibración excesiva, corrosión\nBarreras de prevención: PM de sellos, monitoreo de vibraciones, inhibidor de corrosión\nTop Event: Fuga de gas\nBarreras de mitigación: detector de gas, diluvio automático, sistema ESD\nConsecuencias: incendio, explosión, lesión a personal'
+            }
+          ]
+        },
+        {
+          codigo: '2.3',
+          titulo: 'Control Estadístico de Procesos',
+          subtemas: [
+            {
+              titulo: 'Índices de Capacidad — Cp y Cpk',
+              contenido: 'Los índices de capacidad miden qué tan bien el proceso puede producir dentro de las especificaciones del cliente. Cp mide la capacidad potencial; Cpk mide la capacidad real considerando el centrado del proceso.',
+              formula: 'Cp = (USL - LSL) ÷ (6σ)\nCpk = mínimo de [(USL - μ) ÷ 3σ] y [(μ - LSL) ÷ 3σ]',
+              ejemplo: 'Especificaciones del producto: 50 ± 3 mm (LSL=47, USL=53)\nMedia del proceso (μ): 51 mm\nDesviación estándar (σ): 0.8 mm\n\nCp = (53 - 47) ÷ (6 × 0.8) = 6 ÷ 4.8 = <strong>1.25</strong>\nCpk = mín[(53-51)÷(3×0.8), (51-47)÷(3×0.8)] = mín[0.83, 1.67] = <strong>0.83</strong>\n\nInterpretación:\n• Cp = 1.25 > 1.0 → El proceso TIENE capacidad potencial suficiente\n• Cpk = 0.83 < 1.0 → El proceso NO está centrado → Está produciendo defectos hacia el límite superior\n• Referencia clase mundial: Cpk ≥ 1.33'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p3',
+      nombre: 'Confiabilidad del Equipo',
+      peso: '26%',
+      color: '#00c896',
+      desc: 'El dominio de mayor peso. Abarca estrategias de mantenimiento, análisis de fallas, técnicas predictivas, gestión del ciclo de vida de activos y herramientas de ingeniería de confiabilidad.',
+      temas: [
+        {
+          codigo: '3.1',
+          titulo: 'Ingeniería de Confiabilidad',
+          subtemas: [
+            {
+              titulo: 'Función de Confiabilidad R(t)',
+              contenido: 'La función de confiabilidad R(t) define la probabilidad de que un componente opere sin fallar hasta el tiempo t. Para la distribución exponencial (tasa de falla constante), se usa la fórmula exponencial.',
+              formula: 'R(t) = e^(-λt) = e^(-t/MTBF)\n\nDonde:\nλ = tasa de falla (fallas/hora)\nt = tiempo de operación\ne = número de Euler ≈ 2.718',
+              ejemplo: 'Un motor eléctrico tiene una tasa de falla λ = 0.002 fallas/hora.\nMTBF = 1/λ = 1/0.002 = 500 horas\n\nProbabilidad de operar 200 horas sin fallar:\nR(200) = e^(-0.002 × 200) = e^(-0.4) = <strong>0.6703 = 67.0%</strong>\n\nProbabilidad de operar 500 horas (= 1 MTBF) sin fallar:\nR(500) = e^(-0.002 × 500) = e^(-1) = <strong>0.3679 = 36.8%</strong>\n\nNota: Al tiempo = 1 MTBF, la confiabilidad es siempre 36.8% (para distribución exponencial)'
+            },
+            {
+              titulo: 'Distribución de Weibull',
+              contenido: 'La distribución de Weibull es la más versátil para modelar la vida de componentes. Sus dos parámetros principales (β y η) describen el patrón de falla y la vida característica del componente.',
+              formula: 'β (Beta): parámetro de forma — indica el tipo de falla\nη (Eta): parámetro de escala — vida característica (63.2% de la población falla en este tiempo)\n\nβ < 1: mortalidad infantil (tasa de falla decreciente)\nβ = 1: fallas aleatorias (equiv. a distribución exponencial)\nβ > 1: desgaste (tasa de falla creciente)',
+              ejemplo: 'Análisis de Weibull de un sello mecánico:\nβ = 2.5 (>1 → patrón de desgaste)\nη = 8,000 horas (vida característica)\n\nInterpretación:\n• El 63.2% de los sellos habrá fallado a las 8,000 horas\n• β > 1 indica que la falla es predecible por tiempo/ciclos de uso\n• Estrategia recomendada: PM basado en tiempo, reemplazar a las 5,000-6,000 horas (~0.7 × η) para prevenir el 90% de las fallas\n\nCurva de la Bañera (Bathtub Curve):\nZona 1 (β<1): Mortalidad infantil → Burn-in testing, mejora de instalación\nZona 2 (β=1): Vida útil → PdM o Run-to-failure\nZona 3 (β>1): Desgaste → PM basado en tiempo'
+            },
+            {
+              titulo: 'Confiabilidad de Sistemas — Serie y Paralelo',
+              contenido: 'La confiabilidad de un sistema depende de cómo están configurados sus componentes. En serie, la falla de cualquier componente falla el sistema. En paralelo, el sistema falla solo si todos los componentes fallan (redundancia).',
+              formula: 'Sistema en SERIE: R_s = R₁ × R₂ × R₃ × ... × Rn\nSistema en PARALELO: R_p = 1 - [(1-R₁) × (1-R₂) × ... × (1-Rn)]',
+              ejemplo: 'SERIE — Sistema de 3 bombas en cascada: R₁=0.95, R₂=0.92, R₃=0.97\nR_sistema = 0.95 × 0.92 × 0.97 = <strong>0.848 = 84.8%</strong>\n⚠️ Cada componente adicional en serie REDUCE la confiabilidad del sistema\n\nPARALELO — 2 bombas en paralelo (activa + standby): R₁=R₂=0.92\nR_sistema = 1 - [(1-0.92) × (1-0.92)] = 1 - [0.08 × 0.08] = 1 - 0.0064 = <strong>0.9936 = 99.4%</strong>\n✅ La redundancia MEJORA significativamente la confiabilidad del sistema\n\nSistema MIXTO — 2 bombas en paralelo (R=0.92) en serie con una válvula (R=0.95):\nR_bombas = 0.9936\nR_total = 0.9936 × 0.95 = <strong>0.944 = 94.4%</strong>'
+            }
+          ]
+        },
+        {
+          codigo: '3.2',
+          titulo: 'RCM — Mantenimiento Centrado en Confiabilidad',
+          subtemas: [
+            {
+              titulo: 'Las 7 Preguntas del RCM (SAE JA1011)',
+              contenido: 'El RCM es una metodología estructurada para determinar qué se debe hacer para garantizar que los activos físicos continúen realizando sus funciones en su contexto operacional actual. La norma SAE JA1011 define los criterios mínimos que debe cumplir un proceso para ser llamado RCM.',
+              formula: 'Las 7 preguntas del RCM deben responderse en este orden:\n1. ¿Cuáles son las FUNCIONES y los estándares de desempeño asociados?\n2. ¿De qué manera puede FALLAR en el cumplimiento de sus funciones (fallas funcionales)?\n3. ¿Cuáles son los MODOS DE FALLA que pueden causar cada falla funcional?\n4. ¿Cuáles son los EFECTOS de cada modo de falla?\n5. ¿Cuáles son las CONSECUENCIAS de cada modo de falla?\n6. ¿Qué se puede hacer para PREDECIR O PREVENIR cada modo de falla?\n7. ¿Qué sucede si NO se puede encontrar una tarea preventiva adecuada?',
+              ejemplo: 'Ejemplo de RCM para una bomba de agua de proceso:\n\n1. FUNCIÓN: Bombear 50 m³/h de agua a 40 mca de presión diferencial\n2. FALLA FUNCIONAL: No puede bombear (cero flujo) / No puede mantener la presión requerida\n3. MODO DE FALLA: Impeller desgastado / Sello mecánico fallido / Cojinetes deteriorados\n4. EFECTOS: Reducción gradual del caudal / Fuga de proceso / Vibración excesiva + calentamiento\n5. CONSECUENCIAS: Paro de producción + contaminación (sello) / Falla catastrófica (cojinetes)\n6. TAREA: Análisis de vibraciones mensual (detecta cojinetes) / Análisis de aceite trimestral\n7. SI NO HAY TAREA FACTIBLE: Rediseño (agregar bomba en paralelo como redundancia)'
+            },
+            {
+              titulo: 'Tipos de Fallas en RCM',
+              contenido: 'El RCM clasifica las fallas según su evidencia para el operador y sus consecuencias. Esta clasificación determina qué tipo de tarea de mantenimiento es más apropiada.',
+              formula: 'Tipos de consecuencias en RCM (orden de prioridad):\n1. Seguridad y medioambiente (inaceptables — siempre requieren acción)\n2. Operacionales (afectan producción, calidad o costos)\n3. No operacionales (solo costo directo de reparación)\n4. Fallas ocultas (no son evidentes en condición normal de operación)',
+              ejemplo: 'FALLA OCULTA (Hidden Failure):\n• Definición: el operador NO puede saber que la falla ocurrió durante la operación normal\n• Ejemplo: válvula de alivio que falla en posición cerrada — el operador no sabe que está fallada hasta que el reactor sobre-presuriza\n• Tarea apropiada: Failure-Finding Task (búsqueda de fallas) a intervalos regulares\n• Ejemplo de tarea: probar la válvula de alivio cada 3 meses para verificar que actúa a la presión correcta\n\nINTERVALO P-F:\n• P = Punto en que se puede detectar la falla potencial (síntomas iniciales)\n• F = Punto en que ocurre la falla funcional\n• La frecuencia de PdM debe ser < (P-F)/2 para tener tiempo de planificar y actuar'
+            },
+            {
+              titulo: 'FMEA / FMECA',
+              contenido: 'El Análisis de Modo y Efecto de Fallas (FMEA) es un proceso inductivo (bottom-up) que identifica cómo los modos de falla de componentes individuales afectan el sistema completo. El FMECA agrega el análisis de criticidad.',
+              formula: 'RPN = Severidad (S) × Ocurrencia (O) × Detección (D)\nDonde S, O, D se evalúan en escala 1-10\nRango del RPN: 1 a 1,000\n\nSeveridad=10: consecuencia catastrófica (seguridad/ambiente) — SIEMPRE requiere acción independientemente del RPN',
+              ejemplo: 'FMEA de bomba centrífuga — sello mecánico:\n\n| Modo de Falla | Efecto | S | O | D | RPN | Acción |\n|--------------|--------|---|---|---|-----|--------|\n| Sello desgastado | Fuga de proceso — paro de planta | 9 | 4 | 3 | 108 | Análisis de vibraciones mensual |\n| Desgaste del impulsor | Caudal insuficiente | 6 | 3 | 4 | 72 | Medición de caudal semanal |\n| Rodamientos deteriorados | Falla catastrófica — paro | 8 | 3 | 2 | 48 | Análisis de vibraciones mensual |\n\n⚠️ Limitación del RPN: Un modo de falla con S=10, O=1, D=1 tiene RPN=10 (bajo), pero la consecuencia catastrófica SIEMPRE requiere acción.'
+            }
+          ]
+        },
+        {
+          codigo: '3.3',
+          titulo: 'Técnicas de Mantenimiento Predictivo (PdM)',
+          subtemas: [
+            {
+              titulo: 'Análisis de Vibraciones',
+              contenido: 'El análisis de vibraciones es la técnica de PdM más usada para equipos rotativos. Detecta el deterioro de rodamientos, desbalance, desalineación, holguras mecánicas y defectos de engranajes antes de que causen fallas.',
+              formula: 'Frecuencias características de rodamientos:\nBPFO = (n/2) × (1 - d/D × cosα) × RPM/60 [Hz]\nBPFI = (n/2) × (1 + d/D × cosα) × RPM/60 [Hz]\nFTF = (1/2) × (1 - d/D × cosα) × RPM/60 [Hz]\n\nDonde: n=número de bolas, d=diámetro de la bola, D=diámetro primitivo, α=ángulo de contacto',
+              ejemplo: 'Diagnóstico por espectro de frecuencias:\n\n🔴 Desbalance: pico dominante a 1× RPM en dirección RADIAL\n\n🟡 Desalineación angular: picos a 1× y 2× RPM con componente AXIAL significativa\nDesalineación paralela: 2× RPM dominante en dirección radial\n\n🟠 Holgura mecánica: múltiplos de 1× RPM (1×, 2×, 3×... n×) con posibles subarmónicos (0.5×, 1.5×)\n\n🟢 Defecto de rodamiento: frecuencias BPFI, BPFO, BSF o FTF\n• Etapa inicial: kurtosis elevada (señal impulsiva)\n• Etapa avanzada: bandas laterales (sidebands) alrededor de las frecuencias características\n\nNorma ISO 10816 (ISO 20816) — Criterios de severidad (velocidad RMS):\nZona A: equipo nuevo ✓\nZona B: operación aceptable ✓\nZona C: alarma — programar mantenimiento ⚠️\nZona D: peligro — paro inmediato 🔴'
+            },
+            {
+              titulo: 'Análisis de Aceite — Tribología',
+              contenido: 'El análisis de aceite monitora la condición del lubricante y detecta partículas de desgaste de los componentes internos. Es especialmente útil para motores, cajas de engranajes, compresores y sistemas hidráulicos.',
+              formula: 'TAN (Total Acid Number): mide la acidez del aceite → valor elevado indica oxidación y degradación\nTBN (Total Base Number): reserva alcalina del aceite → valor bajo indica aceite agotado\nISO Cleanliness Code: 3 números para partículas >4μm, >6μm y >14μm',
+              ejemplo: 'Análisis espectroscópico de metales (desgaste):\nFe (hierro): engranajes, cojinetes de acero, cilindros\nCu (cobre): bronces, cojinetes de cobre, bujes\nCr (cromo): anillos de cromo, cromado de cilindros\nAl (aluminio): pistones, carcasas de aluminio\n\nEjemplo de interpretación:\nMuestra de caja de engranajes:\n• Fe = 150 ppm (límite normal <25 ppm) → ⚠️ Desgaste grave de engranajes\n• TAN = 3.5 (límite normal <2.0) → ⚠️ Aceite oxidado y degradado\n• Viscosidad = 85 cSt (especificación: 100 cSt) → Aceite diluido o degradado\n\nAcción recomendada: Inspección interna inmediata + cambio de aceite + muestreo semanal'
+            },
+            {
+              titulo: 'Termografía Infrarroja',
+              contenido: 'La termografía infrarroja detecta gradientes de temperatura en equipos y componentes eléctricos/mecánicos, identificando puntos calientes que indican deterioro antes de que se conviertan en fallas.',
+              formula: 'No aplica fórmula matemática — es una técnica visual/termográfica',
+              ejemplo: 'Aplicaciones principales de la termografía:\n\n⚡ EQUIPOS ELÉCTRICOS (alta efectividad):\n• Conexiones eléctricas flojas o corroídas en tableros → punto caliente visible\n• Desequilibrio de fases en motores\n• Transformadores con deterioro del aislamiento\n• Fusibles y disyuntores con sobrecarga\n\n⚙️ EQUIPOS MECÁNICOS:\n• Rodamientos con fricción excesiva por lubricación insuficiente\n• Acoplamientos desalineados que generan calor por fricción\n• Equipos con sobrecarga mecánica\n\n🏭 EQUIPOS DE PROCESO:\n• Intercambiadores de calor con fouling (incrustaciones) → distribución no uniforme de temperatura\n• Hornos con refractarios dañados → pérdida de calor por puntos fríos\n• Líneas de vapor con trampas fallidas\n\nRequisito: equipo a temperatura de operación normal para análisis válido'
+            },
+            {
+              titulo: 'Ultrasonido Industrial',
+              contenido: 'El ultrasonido industrial detecta sonidos de alta frecuencia (≥20 kHz, imperceptibles al oído humano) generados por turbulencia de fluidos, arcos eléctricos, fricción y cavitación.',
+              formula: 'Frecuencia de análisis: 20 kHz a 100 kHz\nEl oído humano percibe: 20 Hz a 20 kHz',
+              ejemplo: 'Aplicaciones del ultrasonido industrial:\n\n1. 💨 FUGAS DE FLUIDOS (gas, vapor, aire comprimido)\n• Detecta fugas desde distancia segura, incluso con equipo energizado\n• Sensible a fugas muy pequeñas que no son audibles\n• Permite cuantificar el costo económico de la fuga\n\n2. ⚡ EQUIPOS ELÉCTRICOS (sin contacto, equipo energizado)\n• Arcos eléctricos en switchgear, transformadores, celdas de media tensión\n• Descargas parciales en aislamiento deteriorado\n• Corona eléctrica en líneas de alta tensión\n\n3. 🔩 LUBRICACIÓN DE RODAMIENTOS\n• Detecta lubricación deficiente ANTES de que aparezca en el espectro de vibraciones\n• Permite verificar la cantidad correcta de grasa al lubricar (no sobre ni sub-lubricar)\n\n4. 🔄 VÁLVULAS Y TRAMPAS DE VAPOR\n• Detecta bypass (fuga interna) en válvulas que deberían estar cerradas\n• Verifica el correcto funcionamiento de trampas de vapor'
+            }
+          ]
+        },
+        {
+          codigo: '3.4',
+          titulo: 'Análisis de Causa Raíz (RCA)',
+          subtemas: [
+            {
+              titulo: 'Metodología de RCA — Los 3 Niveles de Causa',
+              contenido: 'Un RCA bien ejecutado identifica tres niveles de causa. Solo eliminando la causa raíz latente (sistémica) se previene la recurrencia de la falla.',
+              formula: 'Causa Raíz Física: ¿Qué componente falló y por qué mecanismo?\nCausa Raíz Humana: ¿Qué error humano contribuyó a la falla?\nCausa Raíz Latente/Sistémica: ¿Qué factor del sistema de gestión permitió que el error humano ocurriera?',
+              ejemplo: 'Caso: Falla de rodamiento en bomba centrífuga\n\n🔧 CAUSA RAÍZ FÍSICA:\nRodamiento dañado por fatiga acelerada de contacto debido a contaminación por partículas de hierro\n\n👤 CAUSA RAÍZ HUMANA:\nTécnico aplicó grasa contaminada del balde abierto en el taller\n\n⚙️ CAUSA RAÍZ LATENTE/SISTÉMICA:\nNo existía procedimiento de lubricación de precisión.\nLos baldes de grasa se almacenaban abiertos y sin identificación.\nNo había capacitación formal sobre contaminación en lubricación.\n\n✅ ACCIONES CORRECTIVAS:\n• Físico: reemplazar rodamiento, limpiar el sistema\n• Humano: capacitar a todos los técnicos en lubricación de precisión\n• Sistémico: procedimiento de lubricación documentado + recipientes cerrados con etiquetas + auditorías de almacén de lubricantes\n\n⚠️ Solo cerrar la causa sistémica previene la recurrencia'
+            },
+            {
+              titulo: '5 Por Qués (5 Whys)',
+              contenido: 'El método de los 5 Por Qués es una técnica sencilla de RCA que pregunta "¿Por qué?" repetidamente para profundizar desde el síntoma hasta la causa raíz.',
+              formula: 'Pregunta "¿Por qué?" al menos 5 veces hasta llegar a la causa raíz sistémica',
+              ejemplo: 'Problema: La bomba de proceso paró inesperadamente causando 4 horas de paro de producción.\n\n❓ Por qué 1: ¿Por qué paró la bomba?\n→ Porque el rodamiento se dañó y se trabó\n\n❓ Por qué 2: ¿Por qué se dañó el rodamiento?\n→ Porque estaba funcionando sin lubricación adecuada\n\n❓ Por qué 3: ¿Por qué no tenía lubricación adecuada?\n→ Porque el técnico no lubricó según el programa de PM\n\n❓ Por qué 4: ¿Por qué el técnico no ejecutó el PM de lubricación?\n→ Porque producción no liberó el equipo para el PM en las últimas 6 semanas\n\n❓ Por qué 5: ¿Por qué producción no liberó el equipo para el PM?\n→ Porque no existe un proceso formal de coordinación entre mantenimiento y producción para los PM\n\n✅ CAUSA RAÍZ: No existe proceso de coordinación M&R — Producción\nACCIÓN: Implementar reunión semanal de programación + política de priorización de PM'
+            },
+            {
+              titulo: 'FRACAS — Failure Reporting Analysis and Corrective Action System',
+              contenido: 'FRACAS es un sistema cerrado (closed-loop) para la gestión de fallas. Garantiza que cada falla significativa sea reportada, analizada, y que se implementen y verifiquen las acciones correctivas.',
+              formula: 'Ciclo FRACAS: Reporte → Análisis → Acción Correctiva → Verificación de Eficacia',
+              ejemplo: 'Proceso FRACAS:\n\n1. REPORTE: El técnico o el sistema detecta y documenta la falla en el CMMS\n   • Síntoma observado, equipo afectado, fecha/hora, duración del paro\n\n2. ANÁLISIS: El ingeniero de confiabilidad realiza el RCA\n   • Identifica causa física, humana y latente\n   • Documenta el análisis en el CMMS\n\n3. ACCIÓN CORRECTIVA: Se definen acciones específicas con:\n   • Qué se va a hacer (acción específica, no vaga)\n   • Quién es el responsable\n   • Cuándo debe estar implementada\n\n4. VERIFICACIÓN: Después de 3-6 meses se verifica:\n   • ¿La falla se repitió? Si sí → la acción no fue efectiva → volver al análisis\n   • ¿La falla no se repitió? → cerrar el FRACAS\n\n✅ El ciclo FRACAS solo está CERRADO cuando la eficacia está confirmada con datos'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p4',
+      nombre: 'Organización & Liderazgo',
+      peso: '16%',
+      color: '#c47aff',
+      desc: 'Desarrolla capacidades de liderazgo, gestión del cambio, entrenamiento técnico, cultura de confiabilidad y administración del capital humano en el departamento de mantenimiento.',
+      temas: [
+        {
+          codigo: '4.1',
+          titulo: 'Liderazgo y Gestión del Cambio',
+          subtemas: [
+            {
+              titulo: 'Liderazgo Situacional — Hersey & Blanchard',
+              contenido: 'El modelo de Liderazgo Situacional establece que no hay un único estilo de liderazgo óptimo. El líder debe adaptar su estilo al nivel de desarrollo de cada colaborador.',
+              formula: 'Nivel de Desarrollo = Competencia + Compromiso/Motivación\nEstilo de liderazgo = función del nivel de desarrollo del colaborador',
+              ejemplo: 'Cuatro niveles de desarrollo del colaborador:\n\nD1 — Bajo compromiso, baja competencia (nuevo entusiasta)\n→ Estilo S1 DIRECTIVO: instrucciones claras y detalladas\n→ Alta directiva, baja apoyo\nEjemplo: técnico recién contratado en una tarea nueva\n\nD2 — Bajo compromiso, algo de competencia (aprendiz frustrado)\n→ Estilo S2 COACH: explicar el razonamiento, persuadir\n→ Alta directiva, alto apoyo\nEjemplo: técnico con algo de experiencia que encuentra dificultades\n\nD3 — Alto compromiso variable, alta competencia (capaz inseguro)\n→ Estilo S3 APOYO: involucrar, facilitar, preguntar\n→ Baja directiva, alto apoyo\nEjemplo: técnico experimentado que perdió motivación o confianza\n\nD4 — Alto compromiso, alta competencia (experto autónomo)\n→ Estilo S4 DELEGADOR: delegar responsabilidad y autoridad\n→ Baja directiva, baja apoyo\nEjemplo: ingeniero senior con plena autonomía'
+            },
+            {
+              titulo: 'Kotter — 8 Pasos para el Cambio',
+              contenido: 'El modelo de 8 pasos de Kotter es una metodología para liderar transformaciones organizacionales. Se aplica a la implementación de programas de confiabilidad, TPM, RCM u otras iniciativas de cambio cultural.',
+              formula: '8 pasos en secuencia — no se pueden saltear etapas',
+              ejemplo: '8 Pasos de Kotter aplicados a un programa de PdM:\n\n1. CREAR URGENCIA: mostrar el costo actual de los paros no planeados ($X/mes en pérdidas)\n2. CONSTRUIR COALICIÓN: involucrar a gerencia de producción, mantenimiento y finanzas\n3. DESARROLLAR VISIÓN: "En 2 años, disponibilidad >95% y paros no planeados <5%"\n4. COMUNICAR LA VISIÓN: presentaciones en todos los niveles, carteleras, reuniones\n5. ELIMINAR OBSTÁCULOS: resolver conflictos de recursos, capacitar al personal\n6. GENERAR VICTORIAS RÁPIDAS: mostrar resultados en el 1er equipo piloto en 3 meses\n7. CONSOLIDAR LOGROS: expandir a más equipos, evitar declarar victoria prematura\n8. ANCLAR EN LA CULTURA: incorporar el PdM en los KPIs, reconocimientos y procesos permanentes'
+            }
+          ]
+        },
+        {
+          codigo: '4.2',
+          titulo: 'Desarrollo del Personal',
+          subtemas: [
+            {
+              titulo: 'Modelo de Competencias — KSA',
+              contenido: 'El modelo KSA (Knowledge, Skills, Attitudes) define los tres componentes de la competencia de un técnico de mantenimiento. Los tres deben estar presentes para la competencia real.',
+              formula: 'Competencia = Conocimiento (saber) + Habilidades (poder hacer) + Actitudes (querer hacer)',
+              ejemplo: 'Análisis de brecha de competencias para un técnico de análisis de vibraciones:\n\n📚 CONOCIMIENTO (saber):\nRequerido: principios de FFT, frecuencias características de rodamientos, criterios ISO 10816\nActual: conoce los conceptos básicos pero no las fórmulas de BPFI/BPFO\nBRECHA → Capacitación teórica de 16 horas + lectura de norma ISO 10816\n\n🔧 HABILIDADES (poder hacer):\nRequerido: recolectar datos con el colector, interpretar espectros, generar recomendaciones\nActual: sabe usar el colector pero no puede interpretar el espectro\nBRECHA → OJT (On the Job Training) durante 3 meses con supervisor experto\n\n💡 ACTITUDES (querer hacer):\nRequerido: proactividad en la búsqueda de anomalías, curiosidad técnica\nActual: actitud positiva, pregunta y aprecia el aprendizaje\nBRECHA → Ninguna, solo mantener el reconocimiento y los desafíos'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      id: 'p5',
+      nombre: 'Gestión del Trabajo',
+      peso: '24%',
+      color: '#ff6b6b',
+      desc: 'Cubre el ciclo completo de gestión del trabajo: identificación, planificación, programación, ejecución y cierre de órdenes de trabajo, junto con gestión de repuestos y contratistas.',
+      temas: [
+        {
+          codigo: '5.1',
+          titulo: 'Identificación y Priorización del Trabajo',
+          subtemas: [
+            {
+              titulo: 'Solicitudes de Trabajo (Work Requests)',
+              contenido: 'Una solicitud de trabajo (notificación en SAP, work request en inglés) es el mecanismo formal para comunicar al departamento de mantenimiento que hay una necesidad de trabajo. Es el punto de entrada del ciclo de gestión del trabajo.',
+              formula: 'No aplica fórmula — es un proceso administrativo',
+              ejemplo: 'Proceso de solicitud de trabajo:\n\n📥 QUIÉN PUEDE SOLICITARLO:\n• Cualquier persona de la planta: operadores, técnicos, ingenieros, supervisores\n• El propio departamento de mantenimiento (PdM, inspecciones, RCA)\n• El sistema CMMS (por PM programados o por alarmas del proceso)\n\n📋 INFORMACIÓN MÍNIMA que debe incluir la solicitud:\n• Descripción clara del problema o necesidad\n• Equipo afectado (tag del equipo en el CMMS)\n• Ubicación\n• Impacto actual (está operando, reducido, parado)\n• Urgencia percibida del solicitante\n\n🔄 QUÉ PASA DESPUÉS:\n1. El planificador revisa y evalúa la solicitud\n2. Le asigna una prioridad (P1, P2, P3, P4)\n3. La planifica (si es aceptada) o la cierra con justificación\n4. La programa en la semana correspondiente'
+            },
+            {
+              titulo: 'Sistema de Priorización de OT',
+              contenido: 'Un sistema de priorización establece el orden en que deben ejecutarse las órdenes de trabajo según su urgencia y el impacto de la falla. Evita que el trabajo se priorice por simpatía, antigüedad o presión del momento.',
+              formula: 'Prioridad = f(Urgencia × Consecuencia)\nNo hay una fórmula universal — cada organización define sus criterios',
+              ejemplo: 'Sistema de 4 prioridades típico:\n\n🔴 P1 — EMERGENCIA (atención inmediata):\nCriterio: amenaza inmediata a la seguridad, medioambiente o producción catastrófica\nEjemplo: fuga de amoniaco en compresor, incendio, paro de línea principal\nRespuesta: en minutos\n\n🟠 P2 — URGENTE (atención en <24 horas):\nCriterio: amenaza a la producción significativa, pero puede esperar unas horas para planificar\nEjemplo: bomba de respaldo fallida, equipo con vibración muy elevada\nRespuesta: en horas, con mínima preparación\n\n🟡 P3 — PROGRAMADO (próximo ciclo de programación):\nCriterio: trabajo planeado con impacto moderado, puede esperar hasta la próxima semana\nEjemplo: PM mensual, correctivo detectado por inspección o PdM\nRespuesta: siguiente semana (en la reunión de programación)\n\n🟢 P4 — RUTINARIO (puede esperar semanas):\nCriterio: trabajo de bajo impacto, mejoras no urgentes\nEjemplo: pintura, mejoras cosméticas, trabajos de baja consecuencia\nRespuesta: cuando haya capacidad disponible'
+            }
+          ]
+        },
+        {
+          codigo: '5.2',
+          titulo: 'Planificación del Mantenimiento',
+          subtemas: [
+            {
+              titulo: 'Rol del Planificador de Mantenimiento',
+              contenido: 'El planificador de mantenimiento es el responsable de preparar el trabajo ANTES de que se ejecute. Su objetivo es garantizar que el técnico llegue al trabajo y pueda ejecutarlo sin interrupciones. No supervisa la ejecución — eso es rol del supervisor.',
+              formula: 'Eficacia de la planificación se mide por:\n• Wrench Time del equipo técnico (debe ser >55% clase mundial)\n• % de trabajos ejecutados sin interrupciones por información o materiales faltantes\n• Precisión de los estimados de horas vs horas reales',
+              ejemplo: 'Responsabilidades del planificador:\n\n✅ LO QUE SÍ HACE el planificador:\n• Realiza la visita al sitio (job walk) ANTES de planificar\n• Desarrolla el procedimiento paso a paso del trabajo\n• Identifica todos los materiales, repuestos y sus números de parte\n• Reserva los materiales en el almacén\n• Estima las horas de trabajo con precisión (basado en historial)\n• Identifica herramientas especiales necesarias\n• Adjunta planos, esquemas y manuales relevantes\n• Identifica los permisos y medidas de seguridad requeridas\n\n❌ LO QUE NO HACE el planificador:\n• No programa cuándo se hace el trabajo (eso es el programador)\n• No supervisa la ejecución en campo (eso es el supervisor)\n• No aprueba los presupuestos (eso es el gerente)\n\nREGLA: 1 hora del planificador preparando un buen paquete de trabajo = 3-10 horas ahorradas en la ejecución'
+            },
+            {
+              titulo: 'El Job Package (Paquete de Trabajo)',
+              contenido: 'El Job Package es el conjunto de documentos que el planificador prepara para que el técnico ejecute el trabajo de forma eficiente, segura y de calidad desde la primera vez.',
+              formula: 'Un Job Package completo ELIMINA las interrupciones durante la ejecución:\nCada interrupción por material faltante = 30-90 min de Wrench Time perdido',
+              ejemplo: 'Contenido del Job Package completo:\n\n📋 1. DESCRIPCIÓN Y ALCANCE DEL TRABAJO\nQué se va a hacer y qué NO está en el alcance\n\n📏 2. ESTIMADO DE TRABAJO\nHoras-hombre por disciplina (mecánicos, electricistas, etc.)\nHoras totales y duración estimada del trabajo\n\n🔧 3. LISTA DE MATERIALES (BOM)\nNúmero de parte, descripción, cantidad, ubicación en almacén\nEstado de disponibilidad en el almacén\n\n🛠️ 4. HERRAMIENTAS ESPECIALES\nEquipo de izaje, herramientas de torque específico, equipos de alineación\n\n📄 5. PROCEDIMIENTO PASO A PASO\nSecuencia de pasos, puntos de verificación de calidad\n\n🗺️ 6. PLANOS Y ESQUEMAS\nP&ID, esquema eléctrico, dibujo de despiece del equipo\n\n🦺 7. SEGURIDAD Y PERMISOS\nProcedimiento LOTO, tipo de permiso de trabajo requerido\nEPP específico necesario\n\n🔍 8. PUNTOS DE INSPECCIÓN Y CRITERIOS DE ACEPTACIÓN\nTorques, holguras, presiones de prueba, criterios de alineación'
+            }
+          ]
+        },
+        {
+          codigo: '5.3',
+          titulo: 'Programación del Mantenimiento',
+          subtemas: [
+            {
+              titulo: 'Proceso de Programación Semanal',
+              contenido: 'La programación semanal transforma el backlog de trabajo preparado en compromisos concretos de ejecución. Es el mecanismo de coordinación entre mantenimiento y producción.',
+              formula: 'Schedule Compliance = OT ejecutadas según programa ÷ OT programadas × 100%\nClase mundial: ≥90%',
+              ejemplo: 'Reunión semanal de programación (maintenance scheduling meeting):\n\n📅 CUÁNDO: Jueves o viernes para programar la semana siguiente\n\n👥 QUIÉNES PARTICIPAN:\n• Programador de mantenimiento (facilita)\n• Supervisor de mantenimiento\n• Representante de producción (supervisor de operaciones)\n• Representante del almacén (si hay materiales críticos)\n\n📋 AGENDA TÍPICA:\n1. Revisión del Schedule Compliance de la semana que termina (15 min)\n2. Revisión del backlog actualizado (10 min)\n3. Producción comunica ventanas de disponibilidad de equipos para la próxima semana (15 min)\n4. Se confirma el programa de PM/PdM de la próxima semana (15 min)\n5. Se acuerda el programa de trabajo semana siguiente con compromisos de recursos (20 min)\n\n📌 RESULTADO: Programa semanal firmado por ambas partes (mantenimiento y producción)\n\nClaves del éxito:\n• Todo el trabajo programado debe estar COMPLETAMENTE planificado (job package listo)\n• Los materiales deben estar confirmados como disponibles\n• Las ventanas de mantenimiento deben estar acordadas con producción'
+            }
+          ]
+        },
+        {
+          codigo: '5.4',
+          titulo: 'Ejecución del Mantenimiento',
+          subtemas: [
+            {
+              titulo: 'LOTO — Lockout/Tagout (Bloqueo y Etiquetado)',
+              contenido: 'LOTO es el procedimiento de seguridad más crítico en el mantenimiento industrial. Garantiza que los equipos no puedan energizarse accidentalmente mientras el personal está trabajando en ellos.',
+              formula: 'LOTO se aplica a TODOS los tipos de energía peligrosa:\nEléctrica + Neumática + Hidráulica + Química + Gravitacional + Térmica + Potencial (resortes)',
+              ejemplo: 'Procedimiento LOTO paso a paso:\n\n1. 📢 NOTIFICAR a todos los afectados que el equipo va a ser desenergizado\n2. ⚡ IDENTIFICAR todas las fuentes de energía del equipo\n3. 🔌 AISLAR cada fuente de energía (abrir disyuntores, cerrar válvulas, etc.)\n4. 🔒 BLOQUEAR cada punto de aislamiento con un candado PERSONAL (un candado por persona)\n5. 🏷️ ETIQUETAR cada candado con el nombre y contacto del técnico\n6. ⚡ LIBERAR o CONTENER la energía residual (descargar capacitores, liberar presión)\n7. ✅ VERIFICAR que el equipo está sin energía (intentar encenderlo, medir con instrumentos)\n\n⚠️ REGLA FUNDAMENTAL:\n• Cada persona que trabaja en el equipo pone SU PROPIO CANDADO\n• NADIE puede remover el candado de OTRA persona\n• Si el técnico debe irse, sus candados se quedan hasta que termine el trabajo\n\n❌ CONSECUENCIAS de no seguir el LOTO:\nElectrocución, aplastamiento, quemaduras, intoxicación — han causado miles de muertes industriales'
+            },
+            {
+              titulo: 'MOC — Management of Change (Gestión del Cambio)',
+              contenido: 'El MOC es el proceso que garantiza que cualquier cambio en el diseño, especificación, procedimiento u operación de un activo sea evaluado por sus nuevos riesgos antes de ser implementado.',
+              formula: 'MOC se requiere para: cambios de proceso, cambios de diseño, cambios de materiales, cambios de procedimientos, cambios en parámetros operativos, cambios de equipos (incluso "equivalentes")',
+              ejemplo: 'Proceso MOC paso a paso:\n\n1. 📝 IDENTIFICAR el cambio propuesto\n"Reemplazar la bomba centrífuga actual por una de diferente marca pero mismas especificaciones"\n\n2. ⚠️ EVALUAR los riesgos del cambio\n¿Qué nuevos riesgos introduce?\n• ¿Es realmente equivalente? ¿misma curva de operación?\n• ¿Las bridas son compatibles? ¿los repuestos son los mismos?\n• ¿Requiere cambios en los parámetros de la válvula de control?\n\n3. ✅ APROBAR formalmente con las firmas requeridas\n\n4. 📢 COMUNICAR a todos los involucrados\n• Operadores, técnicos de mantenimiento, instrumentistas\n\n5. 🔄 IMPLEMENTAR y verificar\n\n6. 📚 ACTUALIZAR la documentación\n• P&ID, manual de operación, procedimientos de mantenimiento, CMMS\n\nEjemplo de incidente sin MOC: Se reemplazó un solvente por uno "equivalente" sin evaluar que el nuevo tenía mayor presión de vapor → la bomba cavitaba constantemente → falla acelerada del sello → fuga de proceso'
+            }
+          ]
+        },
+        {
+          codigo: '5.5',
+          titulo: 'Gestión de Repuestos (MRO)',
+          subtemas: [
+            {
+              titulo: 'Sistema ABC de Inventario',
+              contenido: 'La clasificación ABC aplica el principio de Pareto al inventario MRO, concentrando el control y la gestión en los ítems que representan la mayor parte del valor de consumo.',
+              formula: 'Valor de consumo anual = Precio unitario × Cantidad consumida por año\nLuego ordenar de mayor a menor y clasificar en A, B, C',
+              ejemplo: 'Clasificación ABC de un almacén de 500 ítems:\n\n🔴 CLASE A — Alto valor (20% de los ítems, 80% del valor):\n100 ítems, representan el 80% del gasto total de materiales\nControl: inventario físico mensual, reposición calculada (EOQ), proveedor estratégico\nEjemplo: rodamientos SKF críticos, sellos mecánicos de alto costo\n\n🟡 CLASE B — Valor medio (30% de los ítems, 15% del valor):\n150 ítems, representan el 15% del gasto total\nControl: inventario físico trimestral, monitoreo regular\nEjemplo: correas de transmisión, filtros de proceso\n\n🟢 CLASE C — Bajo valor (50% de los ítems, 5% del valor):\n250 ítems, representan el 5% del gasto total\nControl: inventario físico semestral, control simplificado\nEjemplo: tornillos, tuercas, consumibles básicos\n\n💡 El análisis ABC permite concentrar el 80% del esfuerzo de gestión donde genera el 80% del impacto'
+            },
+            {
+              titulo: 'EOQ y ROP — Optimización del Inventario',
+              contenido: 'La EOQ (Economic Order Quantity) define cuánto pedir. El ROP (Reorder Point) define cuándo pedir. Juntos, optimizan el inventario minimizando el costo total de posesión.',
+              formula: 'EOQ = √(2 × D × S ÷ H)\nDonde: D = demanda anual (unidades), S = costo por pedido ($), H = costo de mantener una unidad por año ($)\n\nROP = (Demanda durante el tiempo de entrega) + Stock de seguridad\nStock de seguridad = Factor de servicio × σ(demanda) × √(tiempo de entrega)',
+              ejemplo: 'EOQ para un rodamiento de proceso:\nDemanda anual (D): 24 unidades/año (2 por mes)\nCosto por pedido (S): $50 (tiempo de gestión + envío)\nCosto de mantener (H): $20/unidad/año (15% del precio × $130 precio)\n\nEOQ = √(2 × 24 × 50 ÷ 20) = √(2,400 ÷ 20) = √120 = <strong>11 unidades</strong>\n→ Pedir 11 unidades cada vez\n\nROP para el mismo rodamiento:\nTiempo de entrega del proveedor: 2 semanas\nDemanda semanal: 24/52 = 0.46 unidades/semana\nDemanda durante tiempo de entrega: 0.46 × 2 = 0.92 ≈ 1 unidad\nStock de seguridad: 2 unidades (por variabilidad)\nROP = 1 + 2 = <strong>3 unidades</strong>\n→ Cuando el inventario llegue a 3 unidades, emitir una orden de compra por 11 unidades'
+            }
+          ]
+        },
+        {
+          codigo: '5.6',
+          titulo: 'Sistema CMMS/EAM',
+          subtemas: [
+            {
+              titulo: 'CMMS — Computerized Maintenance Management System',
+              contenido: 'El CMMS es el sistema de información central del departamento de mantenimiento. Gestiona órdenes de trabajo, historial de equipos, programa de PM, inventario de repuestos y genera los KPIs.',
+              formula: 'Calidad del CMMS = Calidad de los datos ingresados\n"Garbage In = Garbage Out"\nSi los datos son incorrectos, los KPIs serán incorrectos y las decisiones serán incorrectas',
+              ejemplo: 'Estructura jerárquica de activos en el CMMS:\n\nEmpresa: Refinería del Sur\n  └─ Planta: Unidad de Destilación Atmosférica\n      └─ Área: Sección de Carga\n          └─ Sistema: Sistema de Bombeo de Crudo\n              └─ Equipo (TAG): 101-P-001A Bomba de Carga de Crudo\n                  └─ Componente: Rodamiento DE / Sello Mecánico / Impulsor\n                      └─ Punto de medición: Vibración Radial Horizontal\n\nFuncionalidades clave del CMMS:\n📋 Gestión de OT: creación, planificación, programación, ejecución, cierre\n🔧 Historial técnico: registro de todas las intervenciones con costos y tiempos\n⏰ Preventivos: generación automática de OT de PM según frecuencias definidas\n📦 Inventario MRO: control de stock, ROP, EOQ, movimientos de almacén\n📊 KPIs: MTBF, MTTR, disponibilidad, costos, Schedule Compliance\n🔗 Integración con ERP: sincroniza costos, OC y facturas con el sistema financiero'
+            }
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+const DB = {
+  pilares: [
+    {id:'p1',nombre:'Negocio & Gestión',peso:'18%',color:'#f0a500',qs:[{num:1,pilar:"Negocio & Gestión",text:"MTBF=200h, MTTR=10h. ¿Cuál es la Disponibilidad?",opts:["90.0%", "95.2%", "95.0%", "80.0%"],correct:1,exp:"A = MTBF/(MTBF+MTTR) = 200/210 = 95.2%."},
+{num:2,pilar:"Negocio & Gestión",text:"¿Qué norma proporciona el marco de gestión de activos físicos?",opts:["ISO 9001", "ISO 14001", "ISO 55001", "ISO 17024"],correct:2,exp:"ISO 55001 es el estándar de Sistemas de Gestión de Activos."},
+{num:3,pilar:"Negocio & Gestión",text:"OEE=62%, Disponibilidad=85%, Calidad=95%. ¿Cuál es el Rendimiento?",opts:["76.7%", "72.5%", "68.3%", "80.7%"],correct:0,exp:"R = OEE/(D×Q) = 0.62/(0.85×0.95) = 76.7%."},
+{num:4,pilar:"Negocio & Gestión",text:"Fórmula correcta del OEE:",opts:["(Tiempo operativo/Tiempo planeado)×100", "Disponibilidad + Rendimiento + Calidad", "Disponibilidad × Rendimiento × Calidad", "MTBF/(MTBF+MTTR+espera)"],correct:2,exp:"OEE = Disponibilidad × Rendimiento × Calidad. Clase mundial ≥85%."},
+{num:5,pilar:"Negocio & Gestión",text:"Backlog de 350 h-h, capacidad semanal 200 h-h. ¿Semanas de backlog?",opts:["1.0", "1.5", "1.75", "2.0"],correct:2,exp:"350/200 = 1.75 semanas. Saludable: 2–4 semanas."},
+{num:6,pilar:"Negocio & Gestión",text:"65% de OT ejecutadas según programa. ¿KPI y referencia clase mundial?",opts:["Compliance OT >90%", "Schedule Compliance >90%", "Tasa cierre OT >80%", "Eficiencia planificador >85%"],correct:1,exp:"Schedule Compliance mide % de trabajo ejecutado según programa. Clase mundial ≥90%."},
+{num:7,pilar:"Negocio & Gestión",text:"¿Cuál es el rango de Costo de Mantenimiento/RAV clase mundial?",opts:["0.5–1.0%", "1–3%", "5–8%", "10–15%"],correct:1,exp:"Clase mundial: 1–3%. >5% indica problemas de confiabilidad o equipos envejecidos."},
+{num:8,pilar:"Negocio & Gestión",text:"¿Cuántas perspectivas tiene el Balanced Scorecard de Kaplan y Norton?",opts:["2", "3", "4", "5"],correct:2,exp:"Las 4 perspectivas: Financiera, Clientes, Procesos internos, Aprendizaje y crecimiento."},
+{num:9,pilar:"Negocio & Gestión",text:"¿Qué indicador mide la velocidad para restablecer operación tras una falla?",opts:["MTBF", "MTTR", "MTTF", "MDT"],correct:1,exp:"MTTR (Mean Time To Repair) mide la eficiencia de la reparación."},
+{num:10,pilar:"Negocio & Gestión",text:"Técnico con 2.5h productivas en turno de 8h. ¿Wrench Time vs clase mundial (>55%)?",opts:["31.25% — muy por debajo del objetivo >55%", "31.25% — dentro del rango aceptable", "31.25% — por encima del promedio", "62.5% — por encima del objetivo"],correct:0,exp:"Wrench Time=31.25%. Media industria 25-35%; clase mundial >55%."},
+{num:11,pilar:"Negocio & Gestión",text:"¿Cuánto más costosa es una reparación de emergencia vs una planeada?",opts:["Igual costo", "2 a 3 veces más costosa", "3 a 5 veces más costosa", "10 o más veces más costosa"],correct:2,exp:"El costo de una reparación de emergencia es 3-5× mayor que la misma reparación planeada."},
+{num:12,pilar:"Negocio & Gestión",text:"Orden correcto de prioridades en un programa de M&R clase mundial:",opts:["Costo → Producción → Calidad → Seguridad", "Seguridad → Medioambiente → Confiabilidad → Costo", "Producción → Seguridad → Costo → Calidad", "Costo → Seguridad → Producción → Medioambiente"],correct:1,exp:"Seguridad primero → Medioambiente → Confiabilidad/Producción → Costo."},
+{num:13,pilar:"Negocio & Gestión",text:"¿Qué significa RAV?",opts:["Reliability Assessment Value", "Replacement Asset Value — valor de reemplazo de los activos", "Risk-Adjusted Value", "Remaining Asset Value"],correct:1,exp:"RAV: costo de reemplazar todos los activos productivos. Base del KPI Costo de Mantenimiento/RAV."},
+{num:14,pilar:"Negocio & Gestión",text:"Diferencia clave entre CAPEX y OPEX:",opts:["CAPEX cubre materiales y OPEX mano de obra", "CAPEX son inversiones en activos duraderos y OPEX gastos operativos recurrentes", "CAPEX es presupuesto de emergencias y OPEX el planeado", "Son intercambiables"],correct:1,exp:"CAPEX: inversiones que se capitalizan y deprecian. OPEX: gastos recurrentes del día a día."},
+{num:15,pilar:"Negocio & Gestión",text:"¿Qué NO es un elemento del modelo ADKAR?",opts:["Awareness (Consciencia)", "Desire (Deseo)", "Knowledge (Conocimiento)", "Results (Resultados)"],correct:3,exp:"ADKAR = Awareness, Desire, Knowledge, Ability, Reinforcement. 'Results' no pertenece al modelo."},
+{num:16,pilar:"Negocio & Gestión",text:"Madurez del programa de M&R según SMRP se evalúa principalmente en:",opts:["Antigüedad del CMMS", "% mantenimiento planeado vs reactivo y KPIs como disponibilidad y OEE", "Número de certificaciones CMRP", "Presupuesto como % del RAV"],correct:1,exp:">85% trabajo planeado y <15% reactivo caracterizan una organización madura."},
+{num:17,pilar:"Negocio & Gestión",text:"Una planta tiene 35% de trabajo correctivo no planeado. ¿Qué indica?",opts:["Excelente programa de mantenimiento", "Programa aceptable con oportunidades de mejora", "Alta tasa reactiva que indica deficiencias en el programa de confiabilidad", "Nivel normal para cualquier industria"],correct:2,exp:"Clase mundial: <15% reactivo. Un 35% indica un programa de confiabilidad deficiente."},
+{num:18,pilar:"Negocio & Gestión",text:"El análisis de criticidad de equipos se usa para:",opts:["Calcular el costo de reemplazo de cada equipo", "Priorizar equipos según impacto en seguridad, producción y costos para asignar estrategias de M&R", "Determinar la vida útil restante de cada activo", "Definir la estructura organizacional del departamento"],correct:1,exp:"Criticidad = Probabilidad × Consecuencia. Orienta la asignación de estrategias de M&R."},
+{num:19,pilar:"Negocio & Gestión",text:"¿Cuál fase del ciclo de vida del activo tiene MÁS impacto en el LCC?",opts:["Durante la operación y el mantenimiento", "En la fase de diseño y especificación del activo", "Durante la instalación y puesta en marcha", "En la fase de disposición y reemplazo"],correct:1,exp:"El 70-80% del LCC se determina en el diseño: confiabilidad, mantenibilidad y DfM."},
+{num:20,pilar:"Negocio & Gestión",text:"¿Qué es el ROI de un programa de PdM?",opts:["Ahorro en materiales / Inversión en tecnología", "(Beneficios totales − Costo total del programa) / Costo total × 100%", "Horas de producción ganadas / Horas de capacitación", "Fallas evitadas / Inspecciones realizadas"],correct:1,exp:"ROI=(Beneficios−Costos)/Costos×100. Incluye paros evitados, reducción de correctivo y extensión de vida."},
+{num:21,pilar:"Negocio & Gestión",text:"¿Cuál es el propósito del benchmarking en mantenimiento?",opts:["Copiar las prácticas de los competidores", "Identificar brechas y aprender de mejores prácticas para impulsar mejoras", "Reportar el desempeño a la dirección", "Establecer presupuestos"],correct:1,exp:"Benchmarking identifica brechas entre el desempeño actual y la referencia para establecer objetivos de mejora."},
+{num:22,pilar:"Negocio & Gestión",text:"¿Cuál es la definición de un activo 'crítico'?",opts:["Costo de reemplazo >$1 millón", "Cuya falla tiene consecuencias inaceptables en seguridad, producción o medioambiente", "Con más de 10 años de antigüedad", "Que requiere PM mensual o más frecuente"],correct:1,exp:"La criticidad se define por las consecuencias de la falla, no por el costo del activo."},
+{num:23,pilar:"Negocio & Gestión",text:"¿Cuál es el mayor riesgo al implementar un plan estratégico sin apoyo de la alta dirección?",opts:["El plan puede ser técnicamente incorrecto", "El plan no tendrá los recursos, la autorización ni la credibilidad organizacional necesarios para sostenerse", "El plan puede no cumplir normas ISO", "Los técnicos no recibirán capacitación adecuada"],correct:1,exp:"El apoyo de la alta dirección es el factor más crítico para el éxito de cualquier iniciativa estratégica de M&R."},
+{num:24,pilar:"Negocio & Gestión",text:"La causa más frecuente de fracaso en la implementación de un CMMS:",opts:["La tecnología seleccionada no es adecuada", "Resistencia al cambio organizacional y falta de gestión del cambio estructurada", "El costo excesivo del sistema", "La falta de datos históricos de mantenimiento"],correct:1,exp:"El fracaso en implementaciones de CMMS es mayoritariamente por factores humanos y organizacionales."},
+{num:25,pilar:"Negocio & Gestión",text:"¿Qué es el VPN en proyectos de confiabilidad?",opts:["El valor contable actual de los activos", "Suma de todos los flujos de caja futuros descontados a la tasa de costo de capital", "Presupuesto máximo aprobado para el proyecto", "Costo de reemplazo de los activos en valor actual"],correct:1,exp:"VPN>0 indica que el proyecto genera valor. La métrica más rigurosa para evaluar proyectos de inversión en M&R."},
+{num:26,pilar:"Negocio & Gestión",text:"La turbina operó 7,200 h de 8,760 h del año. ¿Disponibilidad?",opts:["82.2%", "87.4%", "90.5%", "79.3%"],correct:0,exp:"Disponibilidad = 7200/8760 × 100 = 82.2%."},
+{num:27,pilar:"Negocio & Gestión",text:"¿Qué es el Backlog activo de mantenimiento?",opts:["Todo el trabajo pendiente incluyendo el no aprobado", "Trabajo aprobado, planificado y listo para ser programado y ejecutado", "OT emitidas pero no asignadas a técnicos", "Historial de trabajos completados en los últimos 30 días"],correct:1,exp:"Backlog activo = trabajo completamente preparado: aprobado, planificado y esperando ser programado."},
+{num:28,pilar:"Negocio & Gestión",text:"¿Qué elemento es ESENCIAL en un proceso MOC?",opts:["Aprobación del proveedor del equipo antes de cualquier modificación", "Evaluación sistemática de los riesgos introducidos por el cambio antes de su implementación", "Firma del técnico que ejecuta el cambio", "Registro de todos los cambios del último año"],correct:1,exp:"MOC requiere: identificar el cambio, evaluar riesgos, aprobar formalmente, comunicar y actualizar documentación técnica."},
+{num:29,pilar:"Negocio & Gestión",text:"¿Cuál es el PM Compliance clase mundial?",opts:["75%", "85%", ">95%", "100%"],correct:2,exp:"PM Compliance clase mundial: >95%. Bajo PM Compliance indica problemas de planificación, recursos o interferencia de producción."},
+{num:30,pilar:"Negocio & Gestión",text:"¿Cuál requisito EXPLÍCITO tiene la norma ISO 55001?",opts:["Usar un CMMS certificado para gestionar OT", "Establecer un Plan de Gestión de Activos (AMP) alineado con el Plan Estratégico Organizacional", "Certificar a todos los ingenieros en CMRP", "Implementar PdM en todos los equipos críticos"],correct:1,exp:"ISO 55001 requiere: política de gestión de activos, SAMP (Strategic Asset Management Plan) y AMP."}]},
+    {id:'p2',nombre:'Confiabilidad del Proceso',peso:'16%',color:'#3d7fff',qs:[{num:1,pilar:"Confiabilidad del Proceso",text:"¿Cuáles son los 8 desperdicios del Lean Manufacturing?",opts:["Sobreproducción, Espera, Transporte, Sobreprocesamiento, Inventario, Movimiento, Defectos, Talento desaprovechado", "Sobreproducción, Espera, Transporte, Almacenamiento, Inventario, Movimiento, Defectos, Energía", "Sobreproducción, Retrasos, Transporte, Sobreprocesamiento, Inventario, Desplazamiento, Defectos, Accidentes", "Ineficiencia, Espera, Transporte, Sobreprocesamiento, Inventario, Movimiento, Defectos, Talento"],correct:0,exp:"TIMWOODS: Transport, Inventory, Motion, Waiting, Overproduction, Overprocessing, Defects, Skills (Talento)."},
+{num:2,pilar:"Confiabilidad del Proceso",text:"El TPM se diferencia del mantenimiento convencional principalmente porque:",opts:["Usa exclusivamente tecnología predictiva avanzada", "Es ejecutado únicamente por ingenieros certificados", "Involucra a los operadores en mantenimiento autónomo y promueve la responsabilidad compartida del equipo", "Se enfoca solo en maximizar el tiempo de producción"],correct:2,exp:"El pilar fundamental del TPM es el Mantenimiento Autónomo: los operadores limpian, inspeccionan, lubrican y detectan anomalías en sus equipos."},
+{num:3,pilar:"Confiabilidad del Proceso",text:"El análisis HAZOP se utiliza principalmente para:",opts:["Calcular la tasa de falla de equipos rotativos", "Identificar riesgos de proceso y operabilidad usando palabras guía", "Determinar la frecuencia de mantenimiento preventivo", "Analizar causas de accidentes industriales ocurridos"],correct:1,exp:"HAZOP usa palabras guía (No, Más, Menos, Inverso, etc.) aplicadas a parámetros de proceso para identificar desviaciones."},
+{num:4,pilar:"Confiabilidad del Proceso",text:"Línea con tres estaciones en serie con eficiencias 95%, 90% y 88%. Eficiencia total:",opts:["91.0%", "75.1%", "87.7%", "79.4%"],correct:1,exp:"Serie: 0.95 × 0.90 × 0.88 = 0.7524 ≈ 75.1%."},
+{num:5,pilar:"Confiabilidad del Proceso",text:"Secuencia correcta del ciclo DMAIC:",opts:["Definir, Medir, Analizar, Implementar, Controlar", "Definir, Medir, Analizar, Mejorar, Controlar", "Describir, Medir, Analizar, Mejorar, Certificar", "Definir, Mapear, Analizar, Implementar, Comprobar"],correct:1,exp:"DMAIC: Define, Measure, Analyze, Improve, Control."},
+{num:6,pilar:"Confiabilidad del Proceso",text:"El VSM (Value Stream Mapping) se utiliza para:",opts:["Calcular el valor económico de los activos", "Visualizar y analizar el flujo de materiales e información para identificar desperdicios", "Mapear las competencias del personal técnico", "Documentar los flujos de caja del departamento"],correct:1,exp:"VSM mapea visualmente el flujo de valor desde proveedor hasta cliente. Identifica desperdicios, cuellos de botella y esperas."},
+{num:7,pilar:"Confiabilidad del Proceso",text:"El índice Cpk se diferencia de Cp en que:",opts:["Cpk considera solo la variabilidad; Cp considera el centrado", "Cpk considera tanto la variabilidad como el centrado del proceso respecto a especificaciones", "Cpk aplica solo a distribuciones no normales", "Cpk es siempre mayor que Cp"],correct:1,exp:"Cp = capacidad potencial (solo variabilidad). Cpk = incluye variabilidad Y centrado. Referencia: Cpk ≥ 1.33."},
+{num:8,pilar:"Confiabilidad del Proceso",text:"En SPC, ¿qué indica que un proceso está 'fuera de control'?",opts:["Que el proceso tiene una capacidad Cp < 1.0", "Un punto fuera de los límites de control (LCS/LCI) o patrones no aleatorios en la carta de control", "Que la variabilidad supera la natural esperada", "Que el proceso produce más de 3.4 defectos por millón"],correct:1,exp:"Proceso fuera de control: puntos fuera de los límites ±3σ, tendencias, patrones cíclicos."},
+{num:9,pilar:"Confiabilidad del Proceso",text:"¿Qué es SIL (Safety Integrity Level)?",opts:["System Integration Level", "Safety Integrity Level — nivel de reducción de riesgo de funciones instrumentadas de seguridad", "Standard Industrial Level", "Sequential Instrumentation Logic"],correct:1,exp:"SIL (IEC 61508/61511): SIL 1=10-100×, SIL 2=100-1000×, SIL 3=1000-10000× reducción de riesgo."},
+{num:10,pilar:"Confiabilidad del Proceso",text:"¿Cuántos pilares tiene el sistema TPM completo?",opts:["4 pilares", "6 pilares", "8 pilares", "10 pilares"],correct:2,exp:"Los 8 pilares del TPM: Autónomo, Planeado, Mejoras Enfocadas, Educación, Salud/Seguridad, Gestión Temprana, Calidad, TPM Administrativo."},
+{num:11,pilar:"Confiabilidad del Proceso",text:"¿Cuál es el primer paso del Mantenimiento Autónomo en TPM?",opts:["Capacitar a los operadores en PdM", "Limpieza inicial profunda del equipo para detectar anomalías", "Transferir toda la responsabilidad de mantenimiento a operaciones", "Comprar equipos de medición para los operadores"],correct:1,exp:"Paso 1 MA: Limpieza inicial. La limpieza ES la inspección: revela fugas, holguras, desgaste. Establece la condición base."},
+{num:12,pilar:"Confiabilidad del Proceso",text:"¿Cuál es el KPI principal del programa TPM?",opts:["MTBF y MTTR de los equipos de la línea", "OEE de las líneas de producción", "Número de eventos Kaizen realizados por mes", "Cumplimiento del programa de mantenimiento preventivo"],correct:1,exp:"El OEE es el KPI principal del TPM: integra Disponibilidad, Rendimiento y Calidad. Clase mundial: OEE ≥85%."},
+{num:13,pilar:"Confiabilidad del Proceso",text:"SMED busca reducir el tiempo de cambio de formato mediante:",opts:["Eliminar el número de herramientas utilizadas", "Convertir actividades internas (máquina parada) en externas (máquina en marcha)", "Estandarizar los procedimientos en un solo documento", "Eliminar el tiempo de espera de materiales en el almacén"],correct:1,exp:"SMED clasifica actividades en internas y externas. Convertir internas en externas reduce el tiempo de paro."},
+{num:14,pilar:"Confiabilidad del Proceso",text:"¿Cuál es el OEE objetivo de clase mundial para manufactura discreta?",opts:["50-60%", "65-75%", "≥85%", "≥95%"],correct:2,exp:"OEE clase mundial para manufactura discreta: ≥85%."},
+{num:15,pilar:"Confiabilidad del Proceso",text:"El análisis Bow-Tie conecta:",opts:["El peligro y la consecuencia", "Las causas/amenazas (izquierda) y las consecuencias (derecha), conectadas por el evento de pérdida de control central", "Los modos de falla y los efectos de falla", "Las barreras preventivas y las barreras de mitigación únicamente"],correct:1,exp:"Bow-Tie: izquierda = amenazas + barreras de prevención. Centro = top event. Derecha = consecuencias + barreras de mitigación."},
+{num:16,pilar:"Confiabilidad del Proceso",text:"¿Cuál es la secuencia correcta de las 5S?",opts:["Sostener, Clasificar, Ordenar, Limpiar, Estandarizar", "Clasificar (Seiri), Ordenar (Seiton), Limpiar (Seiso), Estandarizar (Seiketsu), Sostener (Shitsuke)", "Ordenar, Clasificar, Estandarizar, Limpiar, Sostener", "Limpiar, Clasificar, Ordenar, Sostener, Estandarizar"],correct:1,exp:"5S: Seiri, Seiton, Seiso, Seiketsu, Shitsuke."},
+{num:17,pilar:"Confiabilidad del Proceso",text:"Un proceso con Cp=1.5 y Cpk=0.8 indica:",opts:["El proceso está centrado y tiene buena capacidad", "El proceso tiene buena capacidad potencial pero está descentrado, produciendo defectos fuera de una especificación", "El proceso no tiene capacidad suficiente", "El proceso está centrado pero la variabilidad es demasiado alta"],correct:1,exp:"Cp > Cpk indica descentrado. El proceso tiene el ancho adecuado (Cp=1.5) pero no está centrado correctamente (Cpk=0.8)."},
+{num:18,pilar:"Confiabilidad del Proceso",text:"En la jerarquía de controles de riesgo, ¿cuál es el MÁS efectivo?",opts:["Equipos de Protección Personal (EPP)", "Controles administrativos", "Sustitución o eliminación del peligro", "Señalización y advertencias"],correct:2,exp:"De mayor a menor efectividad: Eliminación → Sustitución → Controles de ingeniería → Administrativos → EPP."},
+{num:19,pilar:"Confiabilidad del Proceso",text:"¿Cuál es el desperdicio considerado el PEOR en Lean Manufacturing?",opts:["Inventario excesivo", "Sobreproducción — genera todos los demás desperdicios", "Transporte de materiales entre estaciones", "Movimiento innecesario del operador"],correct:1,exp:"Sobreproducción es el peor desperdicio Lean: genera todos los demás."},
+{num:20,pilar:"Confiabilidad del Proceso",text:"En un HAZOP, la palabra guía 'MÁS' aplicada al parámetro 'Flujo' genera:",opts:["Flujo inverso", "Flujo cero", "Flujo mayor al diseño", "Flujo de componente equivocado"],correct:2,exp:"HAZOP 'Más': más de la intención de diseño. Aplicado a flujo: flujo alto → posible golpe de ariete, daño a equipos o pérdida de contención."}]},
+    {id:'p3',nombre:'Confiabilidad del Equipo',peso:'26%',color:'#00c896',qs:[{num:1,pilar:"Confiabilidad del Equipo",text:"¿Cuál es la PRIMERA pregunta del proceso RCM según SAE JA1011?",opts:["¿Cuáles son las consecuencias de la falla?", "¿Cuáles son las funciones y estándares de desempeño?", "¿Cuáles son los modos de falla?", "¿Qué se puede hacer para prevenir la falla?"],correct:1,exp:"RCM empieza con las funciones y estándares de desempeño."},
+{num:2,pilar:"Confiabilidad del Equipo",text:"Distribución Weibull con β < 1 indica:",opts:["Desgaste acelerado", "Vida útil aleatoria", "Mortalidad infantil (fallas por defectos de fabricación o instalación)", "Régimen estable"],correct:2,exp:"β<1: tasa decreciente (mortalidad infantil). β=1: tasa constante. β>1: tasa creciente (desgaste)."},
+{num:3,pilar:"Confiabilidad del Equipo",text:"El RPN en FMEA se calcula como:",opts:["Severidad + Ocurrencia + Detección", "Severidad × Ocurrencia × Detección", "(Severidad × Ocurrencia) / Detección", "Severidad × Criticidad"],correct:1,exp:"RPN = S × O × D. Rango 1-1000. Severidad=10 siempre requiere acción independientemente del RPN."},
+{num:4,pilar:"Confiabilidad del Equipo",text:"Sistema con R₁=0.90 y R₂=0.85 en serie. Confiabilidad del sistema:",opts:["0.875", "0.765", "0.985", "0.950"],correct:1,exp:"Serie: R = 0.90 × 0.85 = 0.765 (76.5%). En paralelo sería: 1-(0.10×0.15) = 0.985."},
+{num:5,pilar:"Confiabilidad del Equipo",text:"La técnica MÁS adecuada para detectar desalineación en un acoplamiento:",opts:["Análisis de aceite", "Análisis de vibraciones", "Termografía infrarroja", "Ultrasonido de contacto"],correct:1,exp:"Desalineación: picos a 1× y 2× RPM predominantemente axiales en el espectro de vibraciones."},
+{num:6,pilar:"Confiabilidad del Equipo",text:"Un equipo tiene λ = 0.005 fallas/hora. Probabilidad de operar sin fallar 100 horas:",opts:["50.0%", "60.7%", "40.7%", "80.0%"],correct:1,exp:"R(t) = e^(-0.005×100) = e^(-0.5) ≈ 0.6065 = 60.7%. MTBF = 1/λ = 200 h."},
+{num:7,pilar:"Confiabilidad del Equipo",text:"Objetivo PRINCIPAL del RCA:",opts:["Identificar al responsable", "Documentar la falla", "Identificar y eliminar la causa raíz para prevenir recurrencia", "Cuantificar el impacto económico"],correct:2,exp:"El RCA elimina causas raíz físicas, humanas y latentes. No busca culpables sino causas."},
+{num:8,pilar:"Confiabilidad del Equipo",text:"Mecanismo de daño MÁS común en rodamientos por lubricación deficiente:",opts:["Pitting (fatiga por picadura)", "Corrosión galvánica", "Desgaste abrasivo por partículas", "Fractura frágil por temperatura"],correct:0,exp:"Lubricación insuficiente → contacto metal-metal → esfuerzos de Hertz → fatiga subsuperficial → pitting."},
+{num:9,pilar:"Confiabilidad del Equipo",text:"Pico prominente a 1× RPM en dirección radial indica MÁS frecuentemente:",opts:["Falla en pista interior de rodamiento", "Desbalance de masa en el rotor", "Desalineación angular", "Holgura mecánica"],correct:1,exp:"Desbalance: fuerza centrífuga a exactamente 1× RPM, predominantemente radial."},
+{num:10,pilar:"Confiabilidad del Equipo",text:"TAN elevado en el análisis de aceite indica:",opts:["Alta concentración de partículas de desgaste", "Oxidación y degradación del aceite lubricante", "Alta viscosidad por baja temperatura", "Contaminación con agua"],correct:1,exp:"TAN (Total Acid Number) elevado: oxidación del aceite, aditivos agotados, formación de ácidos."},
+{num:11,pilar:"Confiabilidad del Equipo",text:"Dos bombas en paralelo, R=0.80 cada una. Confiabilidad del sistema:",opts:["0.80", "0.64", "0.96", "1.00"],correct:2,exp:"Paralelo: R = 1-(1-0.80)(1-0.80) = 1-0.04 = 0.96."},
+{num:12,pilar:"Confiabilidad del Equipo",text:"El ultrasonido industrial es especialmente útil para detectar:",opts:["Desbalance en rotores", "Fugas de gas/vapor y arcos eléctricos en equipos energizados", "Temperatura superficial de equipos", "Fatiga de material en estructuras"],correct:1,exp:"Ultrasonido (≥20 kHz): fugas de gas/vapor/aire, arcos eléctricos, descargas parciales."},
+{num:13,pilar:"Confiabilidad del Equipo",text:"¿Cuál es el intervalo P-F en RCM?",opts:["La diferencia entre MTBF y MTTR", "El tiempo desde que se detecta la falla potencial (P) hasta que ocurre la falla funcional (F)", "La frecuencia de las tareas de búsqueda de fallas", "El tiempo entre la instalación y la primera falla"],correct:1,exp:"El intervalo P-F define cuánto tiempo hay para detectar y actuar antes de la falla funcional."},
+{num:14,pilar:"Confiabilidad del Equipo",text:"Según Nowlan & Heap, ¿qué % de equipos siguen el patrón clásico de la Curva de la Bañera?",opts:["~89%", "~68%", "~11%", "~33%"],correct:2,exp:"Solo ~11% siguen el patrón clásico. El 89% restante sigue otros patrones. Esto fundamenta el RCM."},
+{num:15,pilar:"Confiabilidad del Equipo",text:"Run-to-Failure es MÁS apropiado cuando:",opts:["Equipo crítico sin redundancia", "Bomba de lubricación de turbogenerador", "Luminaria no crítica con repuesto disponible", "Válvula de control en línea principal"],correct:2,exp:"Run-to-Failure aplica cuando: no hay consecuencias de seguridad, hay repuesto disponible y el costo de PM supera al de reparación."},
+{num:16,pilar:"Confiabilidad del Equipo",text:"FRACAS es un sistema closed-loop que:",opts:["Calcula tasas de falla", "Reporta, analiza y genera acciones correctivas para eliminar fallas recurrentes", "Evalúa causas de accidentes", "Audita sistemas de activos"],correct:1,exp:"FRACAS: reporte → análisis → acción correctiva → verificación de eficacia."},
+{num:17,pilar:"Confiabilidad del Equipo",text:"¿Qué representa el parámetro η (eta) de la distribución de Weibull?",opts:["La tasa de falla constante del equipo", "La vida característica: tiempo al cual el 63.2% de la población ha fallado", "El número mínimo de fallas antes del desgaste", "La desviación estándar de los tiempos a la falla"],correct:1,exp:"η (vida característica): tiempo en que el 63.2% de la población falla, independientemente de β."},
+{num:18,pilar:"Confiabilidad del Equipo",text:"La termografía infrarroja es MÁS efectiva para detectar:",opts:["Desbalance en rotores", "Puntos calientes en conexiones eléctricas, rodamientos y equipos de proceso", "Cavitación en bombas", "Fisuras internas en estructuras"],correct:1,exp:"Termografía detecta gradientes de temperatura: conexiones sueltas, rodamientos con fricción, intercambiadores, transformadores."},
+{num:19,pilar:"Confiabilidad del Equipo",text:"FTA es top-down; FMEA es bottom-up. ¿Cuál es la diferencia?",opts:["FTA es cuantitativo; FMEA es siempre cualitativo", "FTA: del evento no deseado hacia las causas (deductivo); FMEA: de los modos de falla hacia los efectos (inductivo)", "FTA analiza equipos mecánicos; FMEA analiza equipos eléctricos", "FTA lo realiza un experto externo; FMEA el equipo interno"],correct:1,exp:"FTA: deductivo (top-down). FMEA: inductivo (bottom-up). Son complementarios."},
+{num:20,pilar:"Confiabilidad del Equipo",text:"Las holguras mecánicas en equipos rotativos se manifiestan en vibraciones como:",opts:["Un único pico a 1× RPM de alta amplitud", "Múltiples armónicos de la frecuencia de rotación (1×, 2×, 3×...) con posibles subarmónicos (0.5×)", "Un pico dominante a la frecuencia natural del sistema", "Ausencia de picos en alta frecuencia"],correct:1,exp:"Holgura: genera señal no lineal → múltiples armónicos de 1× RPM y posibles subarmónicos (0.5×, 1.5×)."},
+{num:21,pilar:"Confiabilidad del Equipo",text:"La diferencia entre 'falla funcional' y 'modo de falla' en RCM:",opts:["Son términos intercambiables en RCM", "La falla funcional describe el estado de no cumplir la función (el 'qué'); el modo de falla describe la causa específica de ese estado (el 'por qué')", "El modo de falla es siempre detectable; la falla funcional puede ser oculta", "La falla funcional aplica a sistemas; el modo de falla aplica a componentes"],correct:1,exp:"Falla funcional: 'La bomba no entrega el caudal requerido'. Modo de falla: 'Impeller desgastado' (la causa)."},
+{num:22,pilar:"Confiabilidad del Equipo",text:"¿Cuántos patrones de falla identifica el estudio de Nowlan & Heap?",opts:["2 patrones", "4 patrones", "6 patrones", "8 patrones"],correct:2,exp:"Nowlan & Heap identificaron 6 patrones de falla (A-F). Solo A y B se benefician del PM por tiempo."},
+{num:23,pilar:"Confiabilidad del Equipo",text:"El balanceo dinámico se diferencia del estático en que:",opts:["El balanceo dinámico es menos preciso pero más rápido", "El balanceo dinámico corrige el desequilibrio en dos planos, eliminando el desequilibrio estático y el dinámico (par)", "El balanceo estático aplica a rotores largos y el dinámico a discos delgados", "No hay diferencia práctica entre ambos"],correct:1,exp:"Balanceo estático: un plano. Balanceo dinámico: dos planos (par dinámico). Rotores con L/D > 0.5 requieren balanceo dinámico."},
+{num:24,pilar:"Confiabilidad del Equipo",text:"¿Cuál técnica de END es MÁS apropiada para detectar fisuras superficiales en materiales ferromagnéticos?",opts:["Ultrasonido de pulso-eco", "Partículas magnéticas (MT)", "Radiografía industrial", "Termografía infrarroja"],correct:1,exp:"Partículas magnéticas (MT): el campo magnético hace que las partículas se acumulen en fisuras superficiales en materiales ferromagnéticos."},
+{num:25,pilar:"Confiabilidad del Equipo",text:"En RCM, consecuencias de seguridad/ambientales inaceptables:",opts:["Se tratan igual que cualquier otro modo de falla", "Requieren una tarea proactiva que las reduzca a un nivel tolerable; si no existe, se debe rediseñar", "Se eliminan del análisis si la probabilidad de falla es muy baja", "Solo requieren atención si han ocurrido antes"],correct:1,exp:"RCM: consecuencias inaceptables de seguridad/ambiente SIEMPRE requieren una tarea que las reduzca a nivel tolerable."}]},
+    {id:'p4',nombre:'Organización & Liderazgo',peso:'16%',color:'#c47aff',qs:[{num:1,pilar:"Organización & Liderazgo",text:"El modelo ADKAR: ¿qué representa la 'R'?",opts:["Resultados — medir los resultados del cambio", "Reforzamiento — sostener y reforzar el cambio para prevenir regresión", "Responsabilidad — asignar responsables del cambio", "Recursos — asegurar los recursos necesarios"],correct:1,exp:"ADKAR = Awareness, Desire, Knowledge, Ability, Reinforcement. Si el reforzamiento falla, la organización regresa a los viejos hábitos."},
+{num:2,pilar:"Organización & Liderazgo",text:"El supervisor tiene equipo con alta habilidad técnica pero baja motivación. ¿Qué estilo adoptar? (Hersey & Blanchard)",opts:["Estilo Directivo (S1) — instrucciones detalladas", "Estilo Coach (S2) — explicar y persuadir con acompañamiento", "Estilo de Apoyo (S3) — apoyar, involucrar y facilitar", "Estilo Delegador (S4) — delegar sin supervisión"],correct:2,exp:"M3 (alta competencia, baja motivación) → S3 (Supporting): alta conducta de apoyo, baja directiva."},
+{num:3,pilar:"Organización & Liderazgo",text:"El Gap Analysis de competencias sirve para:",opts:["Comparar el salario del personal con el mercado laboral", "Identificar la diferencia entre las competencias actuales del personal y las requeridas para el desempeño deseado", "Evaluar el desempeño individual anual del técnico", "Determinar cuántos técnicos adicionales se deben contratar"],correct:1,exp:"Gap Analysis: competencias requeridas vs competencias actuales. Las brechas generan el Plan de Capacitación priorizado."},
+{num:4,pilar:"Organización & Liderazgo",text:"La transferencia de conocimiento es un desafío crítico en M&R principalmente porque:",opts:["Los CMMS no almacenan conocimiento técnico informal", "El conocimiento tácito de técnicos experimentados se pierde con jubilaciones y rotación si no se documenta", "Los ingenieros jóvenes no tienen interés en aprender", "Los presupuestos de capacitación son insuficientes"],correct:1,exp:"El conocimiento tácito acumulado por experiencia es el activo más valioso y frágil."},
+{num:5,pilar:"Organización & Liderazgo",text:"Los primeros dos pasos del modelo de cambio de Kotter son:",opts:["Establecer el equipo de cambio y diseñar el plan", "Crear urgencia y construir una coalición de líderes guiadores", "Comunicar la visión y eliminar los obstáculos", "Generar victorias a corto plazo y consolidar el cambio"],correct:1,exp:"Kotter: 1) Crear urgencia, 2) Coalición de líderes, 3) Visión y estrategia, 4) Comunicar la visión..."},
+{num:6,pilar:"Organización & Liderazgo",text:"¿Cuál comportamiento refleja una verdadera 'cultura de confiabilidad'?",opts:["Los técnicos solo ejecutan el trabajo en la OT sin reportar anomalías adicionales", "Todos los niveles identifican y actúan sobre riesgos de falla proactivamente", "Solo el departamento de mantenimiento es responsable de la confiabilidad", "La cultura de confiabilidad es un programa que se implementa y luego se mantiene automáticamente"],correct:1,exp:"Cultura de confiabilidad: responsabilidad compartida en todos los niveles, pensamiento proactivo y mejora continua sostenida."},
+{num:7,pilar:"Organización & Liderazgo",text:"¿Cuál es la diferencia entre 'mentoring' y 'coaching'?",opts:["Son términos intercambiables sin diferencia práctica", "Mentoring: relación a largo plazo donde un profesional experimentado comparte experiencia y conocimiento tácito. Coaching: proceso focalizado en desarrollar una competencia específica en el corto plazo", "Mentoring es para gerentes; coaching es para técnicos", "Mentoring lo realiza el supervisor directo; coaching lo realiza un consultor externo"],correct:1,exp:"Mentoring: largo plazo, transferencia de experiencia y sabiduría. Coaching: corto plazo, focalizado en una competencia específica."},
+{num:8,pilar:"Organización & Liderazgo",text:"¿Cuál es la función más importante del líder de un departamento clase mundial?",opts:["Ser el experto técnico más competente del departamento", "Crear las condiciones (visión, recursos, cultura, procesos) para que el equipo pueda alcanzar los resultados de confiabilidad requeridos", "Aprobar personalmente todas las OT de alto costo", "Negociar el presupuesto de mantenimiento con la gerencia financiera cada año"],correct:1,exp:"El líder clase mundial no es el mejor técnico sino el que crea las condiciones organizacionales para que el equipo tenga éxito."},
+{num:9,pilar:"Organización & Liderazgo",text:"¿Cuál es la visión más avanzada del rol del mantenimiento en una organización clase mundial?",opts:["Mantenimiento es un centro de costo que debe minimizar gastos", "Mantenimiento es un servicio de soporte que repara lo que se rompe", "Mantenimiento es un habilitador estratégico que gestiona activos para maximizar el valor para el negocio", "Mantenimiento es un departamento técnico independiente de los objetivos del negocio"],correct:2,exp:"Clase mundial: mantenimiento como habilitador estratégico que gestiona activos a lo largo de su ciclo de vida."},
+{num:10,pilar:"Organización & Liderazgo",text:"La causa más frecuente de resistencia al cambio en programas de confiabilidad:",opts:["La falta de tecnología adecuada", "El miedo a perder el empleo, la falta de comprensión de los beneficios del cambio y la percepción de amenaza a los hábitos establecidos", "La falta de presupuesto", "Los empleados no tienen suficiente capacitación técnica"],correct:1,exp:"La resistencia al cambio es mayoritariamente emocional: miedo al fracaso, a perder el control, al cambio de rutinas."},
+{num:11,pilar:"Organización & Liderazgo",text:"Competencia = _____ según el modelo KSA:",opts:["Conocimiento + Salario + Actitud", "Conocimiento + Habilidades + Actitudes", "Conocimiento + Supervisión + Aptitud", "Capacitación + Habilidades + Actitudes"],correct:1,exp:"Competencia = Conocimiento (saber) + Habilidades (poder hacer) + Actitudes (querer hacer)."},
+{num:12,pilar:"Organización & Liderazgo",text:"El mayor desafío al implementar el Mantenimiento Autónomo (MA) en una planta tradicional:",opts:["El costo de capacitar a todos los operadores", "La resistencia cultural ('eso no es mi trabajo' / 'ellos van a dañar mis equipos')", "La falta de herramientas adecuadas para los operadores", "Las restricciones sindicales"],correct:1,exp:"El mayor desafío del MA es cultural: cambiar la mentalidad de 'yo opero, tú mantienes' a 'compartimos la responsabilidad del equipo'."},
+{num:13,pilar:"Organización & Liderazgo",text:"¿Cuál es el indicador de cultura de seguridad de mayor valor predictivo de accidentes futuros?",opts:["La tasa de frecuencia de accidentes (TRIR) del año anterior", "La tasa de reporte de near-miss: una alta tasa indica una cultura de transparencia que identifica y elimina peligros antes de que se conviertan en accidentes", "El número de multas y sanciones de los organismos de control", "El costo de los accidentes laborales como % del presupuesto"],correct:1,exp:"Near-miss reporting rate: leading indicator más valioso. Una cultura que reporta los cuasi-accidentes previene los accidentes graves."},
+{num:14,pilar:"Organización & Liderazgo",text:"¿Cuál estructura organizacional es más adecuada para una planta con múltiples líneas de producción?",opts:["Mantenimiento completamente descentralizado", "Estructura híbrida: equipos dedicados a cada línea con un grupo centralizado de especialistas compartidos", "Mantenimiento completamente centralizado", "Tercerización completa del mantenimiento a un contratista único"],correct:1,exp:"La estructura híbrida combina lo mejor de la centralización (especialistas, economías de escala) y la descentralización (conocimiento del equipo, respuesta rápida)."},
+{num:15,pilar:"Organización & Liderazgo",text:"¿Cuál es el elemento cultural más importante para que un programa de mejora continua sea sostenible?",opts:["La inversión en la tecnología de mantenimiento más avanzada disponible", "El compromiso demostrado de la alta dirección, reflejado en la asignación de recursos, la participación activa y el reconocimiento de los logros del personal", "La contratación de consultores externos especializados que guíen el programa continuamente", "La certificación formal de todos los líderes del programa en metodologías Lean y Six Sigma"],correct:1,exp:"El compromiso de la alta dirección es el factor más crítico para la sostenibilidad de cualquier programa de mejora continua."}]},
+    {id:'p5',nombre:'Gestión del Trabajo',peso:'24%',color:'#ff6b6b',qs:[{num:1,pilar:"Gestión del Trabajo",text:"¿Cuál es la responsabilidad PRINCIPAL del Planificador de Mantenimiento?",opts:["Ejecutar directamente los trabajos de mayor complejidad", "Preparar paquetes de trabajo completos para que los técnicos ejecuten eficientemente", "Programar las OT en coordinación con producción", "Supervisar al personal durante la ejecución"],correct:1,exp:"El planificador prepara el trabajo ANTES de que ocurra: pasos, estimación de horas, BOM, herramientas especiales, planos y procedimientos."},
+{num:2,pilar:"Gestión del Trabajo",text:"El sistema LOTO (Lockout/Tagout) se aplica principalmente para:",opts:["Controlar acceso a áreas de alta tensión eléctrica únicamente", "Proteger a los trabajadores del arranque inesperado de equipos o liberación de energía peligrosa durante mantenimiento", "Documentar que un equipo fue apagado correctamente al fin de turno", "Identificar equipos pendientes de reparación en el taller"],correct:1,exp:"LOTO garantiza que la energía peligrosa (eléctrica, neumática, hidráulica, química, gravitacional, térmica) esté aislada durante el trabajo."},
+{num:3,pilar:"Gestión del Trabajo",text:"El 'backlog activo' de mantenimiento se define como:",opts:["Todo el trabajo pendiente incluyendo el no aprobado", "Trabajo aprobado, planificado y listo para ser programado y ejecutado", "OT emitidas pero no asignadas a técnicos", "Historial de trabajos completados en los últimos 30 días"],correct:1,exp:"Backlog activo = trabajo completamente preparado: aprobado, planificado (materiales disponibles, procedimiento listo) y esperando ser programado."},
+{num:4,pilar:"Gestión del Trabajo",text:"¿Cuál KPI mide la proporción de mantenimiento planeado vs trabajo reactivo?",opts:["Schedule Compliance", "Wrench Time", "Tasa de Mantenimiento Reactivo", "PM Compliance"],correct:2,exp:"Clase mundial: <10-15% reactivo y >85% planeado. Alta tasa reactiva indica un programa de confiabilidad deficiente."},
+{num:5,pilar:"Gestión del Trabajo",text:"¿Qué representa el Punto de Reorden (ROP)?",opts:["Nivel mínimo aceptable antes de declarar emergencia", "Nivel de inventario al cual se debe emitir una orden de compra para reabastecer", "Cantidad óptima a pedir en cada orden de compra", "Nivel máximo de inventario permitido por política de la empresa"],correct:1,exp:"ROP = Demanda durante tiempo de entrega + Stock de seguridad."},
+{num:6,pilar:"Gestión del Trabajo",text:"¿Cuál es la función PRINCIPAL de un sistema CMMS?",opts:["Reemplazar la planificación manual con automatización completa", "Gestionar, registrar y controlar actividades de mantenimiento, activos e inventario para análisis y decisiones", "Monitorear en tiempo real las condiciones de los equipos", "Generar automáticamente OT de PM sin intervención humana"],correct:1,exp:"El CMMS gestiona: OT, historial de equipos, preventivos, inventario y KPIs."},
+{num:7,pilar:"Gestión del Trabajo",text:"La clasificación ABC de inventario MRO organiza según:",opts:["Tamaño físico del repuesto", "Valor de uso (consumo × costo): A ~80% del valor, B ~15%, C ~5%", "Criticidad operacional del repuesto", "Frecuencia de uso: diario, semanal, mensual"],correct:1,exp:"Clasificación ABC de Pareto: A = ~20% ítems, ~80% del valor → máximo control."},
+{num:8,pilar:"Gestión del Trabajo",text:"¿Cuál es el Wrench Time y su referencia clase mundial?",opts:["Tiempo de viaje del técnico al sitio — referencia >50%", "Tiempo que el técnico pasa ejecutando trabajo físico productivo — referencia >55%", "Tiempo de planificación del trabajo — referencia >30%", "Tiempo total de la OT incluyendo esperas — referencia <2 h"],correct:1,exp:"Wrench Time: % del tiempo del técnico dedicado a trabajo físico productivo. Media industria: 25-35%; clase mundial: >55%."},
+{num:9,pilar:"Gestión del Trabajo",text:"Una OT se considera 'bien planificada' cuando incluye como MÍNIMO:",opts:["Descripción del trabajo, nombre del técnico y fecha estimada", "Pasos del trabajo, BOM, estimación de horas, herramientas requeridas y medidas de seguridad", "Código de equipo, descripción de la falla y tipo de mantenimiento", "Aprobación del supervisor, código de costo y prioridad asignada"],correct:1,exp:"Un buen paquete de trabajo incluye: procedimiento paso a paso, BOM, estimación de horas, herramientas especiales, planos, LOTO y permisos."},
+{num:10,pilar:"Gestión del Trabajo",text:"¿Cuál es el factor MÁS crítico para el éxito de un paro mayor (turnaround)?",opts:["Tener el presupuesto aprobado con suficiente anticipación", "Planificación detallada del alcance, recursos y materiales con meses de anticipación", "Contratar el mayor número posible de contratistas", "Usar solo personal propio para mantener control de calidad"],correct:1,exp:"El éxito de un turnaround se decide en la planificación (12-18 meses antes)."},
+{num:11,pilar:"Gestión del Trabajo",text:"Durante la ejecución, el técnico descubre una fuga no contemplada. El procedimiento correcto es:",opts:["Reparar inmediatamente ya que el equipo está abierto", "Ignorarla y completar solo el trabajo original", "Documentarla en el cierre de la OT, notificar al supervisor y crear nueva solicitud de trabajo", "Detener todo el trabajo hasta reparar la fuga"],correct:2,exp:"Principio MOC: documentar, notificar, evaluar riesgo y crear nueva OT planificada."},
+{num:12,pilar:"Gestión del Trabajo",text:"El Schedule Compliance (Cumplimiento del programa) de clase mundial es mayor a:",opts:["70%", "80%", "90%", "95%"],correct:2,exp:"Schedule Compliance clase mundial ≥90%."},
+{num:13,pilar:"Gestión del Trabajo",text:"¿Cuál es la diferencia clave entre el PLANIFICADOR y el PROGRAMADOR de mantenimiento?",opts:["Son el mismo rol; los términos se usan indistintamente", "El planificador define EL QUÉ y EL CÓMO (paquete de trabajo); el programador define EL CUÁNDO y CON QUIÉN (programa semanal)", "El planificador es de nivel gerencial; el programador es de nivel técnico", "El planificador trabaja para producción; el programador para mantenimiento"],correct:1,exp:"Planificador: prepara el trabajo. Programador: coordina cuándo se ejecuta con producción y asigna recursos."},
+{num:14,pilar:"Gestión del Trabajo",text:"El Permiso de Trabajo (PTW) es un sistema que:",opts:["Autoriza al técnico a trabajar horas extras en su área", "Controla formalmente los trabajos de alto riesgo asegurando que los controles de seguridad estén implementados antes de iniciar el trabajo", "Aprueba el presupuesto para trabajos de mantenimiento mayor", "Asigna formalmente los recursos humanos a una orden de trabajo"],correct:1,exp:"PTW: sistema formal de control para trabajos de alto riesgo. Asegura que TODOS los controles de seguridad estén implementados ANTES de comenzar."},
+{num:15,pilar:"Gestión del Trabajo",text:"Un repuesto se clasifica como 'crítico' en el inventario MRO cuando:",opts:["Tiene un costo de adquisición superior a $10,000", "Su falta de disponibilidad podría causar paros de producción prolongados, riesgos de seguridad, o tiene largo tiempo de entrega sin alternativas", "Se usa con alta frecuencia en el programa de PM", "Es fabricado por un único proveedor en el mercado"],correct:1,exp:"Un repuesto es crítico cuando: su falta genera consecuencias significativas y tiene largo lead time sin alternativa viable."},
+{num:16,pilar:"Gestión del Trabajo",text:"La secuencia correcta del ciclo de gestión del trabajo:",opts:["Programar → Planificar → Identificar → Ejecutar → Cerrar", "Identificar y priorizar → Planificar → Programar → Ejecutar → Cerrar y retroalimentar", "Planificar → Identificar → Programar → Ejecutar → Cerrar", "Programar → Planificar → Identificar → Ejecutar → Cerrar"],correct:1,exp:"Ciclo correcto: Identificar → Priorizar → Planificar → Programar → Ejecutar → Cerrar."},
+{num:17,pilar:"Gestión del Trabajo",text:"La prioridad P1 (Emergencia) aplica cuando:",opts:["Cualquier trabajo solicitado por la gerencia", "Trabajo requerido INMEDIATAMENTE para prevenir una lesión, un daño ambiental grave, o un paro de producción catastrófico", "Cualquier trabajo que no pueda esperar más de 24 horas", "Todo trabajo en equipos críticos"],correct:1,exp:"P1/Emergencia: amenaza inmediata a seguridad, medioambiente o producción que requiere atención inmediata."},
+{num:18,pilar:"Gestión del Trabajo",text:"La EOQ (Economic Order Quantity) minimiza:",opts:["El tiempo de entrega de los repuestos críticos", "El costo total de mantener inventario más el costo de hacer pedidos", "El espacio de almacenamiento utilizado", "El número total de proveedores de repuestos"],correct:1,exp:"EOQ = √(2DS/H). Equilibra dos costos opuestos: mantener inventario vs pedir frecuentemente."},
+{num:19,pilar:"Gestión del Trabajo",text:"¿Por qué es crítico el cierre correcto de las órdenes de trabajo?",opts:["Para cumplir con los requisitos del sistema CMMS", "Para construir el historial técnico del equipo, capturar los costos reales, retroalimentar el proceso de planificación y generar los KPIs de mantenimiento", "Para que el supervisor apruebe el trabajo realizado", "Para calcular el bono de desempeño del técnico"],correct:1,exp:"El cierre de OT alimenta: historial técnico, análisis de costos, cálculo de KPIs y mejora de la planificación futura."},
+{num:20,pilar:"Gestión del Trabajo",text:"¿Cuánto más costosa es típicamente una reparación de emergencia vs una planeada equivalente?",opts:["Igual costo", "2 a 3 veces más costosa", "3 a 5 veces más costosa", "10 o más veces más costosa en casos extremos"],correct:2,exp:"Estudios industriales muestran que el costo de una reparación de emergencia es 3-5× mayor que la misma reparación planeada."}]}
+  ]
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let ST = JSON.parse(localStorage.getItem('cmrp3') || '{}');
+function save(){ localStorage.setItem('cmrp3', JSON.stringify(ST)); }
+let curPid = null, curMode = 'c', quiz = {}, navStack = [];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function gps(pid){
+  const p = DB.pilares.find(x=>x.id===pid);
+  const ps = ST[pid]||{};
+  const keys = Object.keys(ps.a||{});
+  return {answered:keys.length, correct:keys.filter(k=>ps.a[k]).length, total:p?p.qs.length:0};
+}
+function gas(){
+  let a=0,c=0,t=0;
+  DB.pilares.forEach(p=>{const s=gps(p.id);a+=s.answered;c+=s.correct;t+=s.total;});
+  return {answered:a,correct:c,total:t};
+}
+function showSc(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sc-'+id).classList.add('active');
+}
+
+// ── HOME ──────────────────────────────────────────────────────────────────────
+function renderHome(){
+  const gs=gas();
+  document.getElementById('s-resp').textContent=gs.answered;
+  document.getElementById('s-ok').textContent=gs.correct;
+  document.getElementById('s-pct').textContent=(gs.answered>0?Math.round(gs.correct/gs.answered*100):0)+'%';
+  const cp = CONTENT.pilares;
+  document.getElementById('pilar-list').innerHTML = cp.map(p=>{
+    const dbp=DB.pilares.find(x=>x.id===p.id)||{qs:[]};
+    const st=gps(p.id);
+    const prec=st.answered>0?Math.round(st.correct/st.answered*100):0;
+    const prog=Math.round(st.answered/Math.max(dbp.qs.length,1)*100);
+    return `<div class="pc" style="--color:${p.color}" onclick="openPilar('${p.id}')">
+      <div class="pc-info"><div class="pc-name">${p.nombre}</div>
+      <div class="pc-meta">${p.peso} del examen · ${dbp.qs.length} preguntas</div></div>
+      <div class="pc-right"><div class="pc-pct" style="color:${p.color}">${prec}%</div>
+      <div class="mbar"><div class="mbar-fill" style="width:${prog}%;background:${p.color}"></div></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ── OPEN PILAR ────────────────────────────────────────────────────────────────
+function openPilar(pid, mode){
+  curPid=pid; curMode=mode||'c';
+  navStack.push({type:'pilar',pid,mode:curMode});
+  const p=CONTENT.pilares.find(x=>x.id===pid);
+  document.getElementById('ttitle').textContent=p.nombre;
+  document.getElementById('tbk').style.display='block';
+  document.getElementById('tbadge').style.display='none';
+  document.getElementById('mtabs').style.display='flex';
+  showSc('pilar');
+  updateTabs(); renderMode();
+}
+
+function setMode(m){ curMode=m; updateTabs(); renderMode(); }
+function updateTabs(){
+  document.getElementById('mt-c').classList.toggle('active',curMode==='c');
+  document.getElementById('mt-p').classList.toggle('active',curMode==='p');
+}
+function renderMode(){ curMode==='c'?renderConceptos():renderPracMenu(); }
+
+// ── BACK ──────────────────────────────────────────────────────────────────────
+function goBack(){
+  navStack.pop();
+  if(navStack.length===0){
+    document.getElementById('ttitle').textContent='CMRP Prep';
+    document.getElementById('tbk').style.display='none';
+    document.getElementById('tbadge').style.display='';
+    showSc('home'); renderHome();
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    document.getElementById('nv-inicio').classList.add('active');
+  } else {
+    const last=navStack[navStack.length-1];
+    navStack.pop();
+    openPilar(last.pid, last.mode||'c');
+  }
+}
+
+// ── NAV ───────────────────────────────────────────────────────────────────────
+function navTo(dest){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('nv-'+dest).classList.add('active');
+  navStack=[];
+  document.getElementById('tbk').style.display='none';
+  document.getElementById('tbadge').style.display='';
+  document.getElementById('mtabs').style.display='none';
+  if(dest==='inicio'){
+    document.getElementById('ttitle').textContent='CMRP Prep';
+    showSc('home'); renderHome();
+  } else if(dest==='estudiar'){
+    document.getElementById('ttitle').textContent='Estudiar';
+    document.getElementById('mtabs').style.display='none';
+    document.getElementById('pcontent').innerHTML = buildMenu('c');
+    showSc('pilar');
+  } else if(dest==='practicar'){
+    document.getElementById('ttitle').textContent='Practicar';
+    document.getElementById('pcontent').innerHTML = buildMenu('p');
+    showSc('pilar');
+  } else if(dest==='stats'){
+    document.getElementById('ttitle').textContent='Mi Progreso';
+    document.getElementById('pcontent').innerHTML = buildStats();
+    showSc('pilar');
+  }
+}
+
+function buildMenu(mode){
+  const icon=mode==='c'?'📚':'📝';
+  return `<div class="sec-label">${mode==='c'?'Explorar conceptos':'Practicar preguntas'}</div>
+    <div class="menu-list">${CONTENT.pilares.map(p=>{
+      const dbp=DB.pilares.find(x=>x.id===p.id)||{qs:[]};
+      return `<div class="mc" style="--color:${p.color}" onclick="openPilar('${p.id}','${mode}');document.getElementById('mtabs').style.display='flex'">
+        <div class="mc-dot"></div>
+        <div class="mc-info"><div class="mc-name">${p.nombre}</div>
+        <div class="mc-sub">${p.peso} · ${dbp.qs.length} preguntas</div></div>
+        <span style="color:var(--muted);font-size:0.8rem;">${icon} ›</span>
+      </div>`;
+    }).join('')}</div>`;
+}
+
+// ── CONCEPTOS ─────────────────────────────────────────────────────────────────
+function renderConceptos(){
+  const p=CONTENT.pilares.find(x=>x.id===curPid);
+  if(!p){document.getElementById('pcontent').innerHTML='<p>No encontrado</p>';return;}
+  document.getElementById('pcontent').innerHTML=`
+    <div class="ph">
+      <div class="ph-tag">Pilar · ${p.peso} del examen</div>
+      <div class="ph-title">${p.nombre}</div>
+      <div class="ph-desc">${p.desc}</div>
+    </div>
+    ${p.temas.map((t,ti)=>`
+      <div class="tema" id="tema${ti}">
+        <div class="tema-h" onclick="tT(${ti})" style="--color:${p.color}">
+          <span class="tema-code" style="color:${p.color}">${t.codigo}</span>
+          <span class="tema-title">${t.titulo}</span>
+          <span class="tema-arr">▼</span>
+        </div>
+        <div class="tema-body">
+          ${t.subtemas.map((st,si)=>`
+            <div class="sub" id="sub${ti}_${si}">
+              <div class="sub-h" onclick="tS(${ti},${si})">
+                <span class="sub-arr">▶</span>
+                <span class="sub-title">${st.titulo}</span>
+              </div>
+              <div class="sub-body">
+                <div class="ctext">${st.contenido}</div>
+                ${st.formula?`<div class="fbox"><div class="flabel">📐 Fórmula</div><div class="ftext">${st.formula}</div></div>`:''}
+                ${st.ejemplo?`<div class="ebox"><div class="elabel">💡 Ejemplo</div><div class="etext">${st.ejemplo}</div></div>`:''}
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`).join('')}`;
+}
+function tT(i){document.getElementById('tema'+i).classList.toggle('open');}
+function tS(ti,si){document.getElementById('sub'+ti+'_'+si).classList.toggle('open');}
+
+// ── PRÁCTICA ──────────────────────────────────────────────────────────────────
+function renderPracMenu(){
+  const p=CONTENT.pilares.find(x=>x.id===curPid);
+  const dbp=DB.pilares.find(x=>x.id===curPid)||{qs:[]};
+  const st=gps(curPid);
+  const prec=st.answered>0?Math.round(st.correct/st.answered*100):0;
+  document.getElementById('pcontent').innerHTML=`
+    <div class="ph">
+      <div class="ph-tag">Pilar · ${p.peso} del examen</div>
+      <div class="ph-title">${p.nombre}</div>
+    </div>
+    <div class="sum-grid">
+      <div class="sum-item"><div class="sum-val">${st.answered}</div><div class="sum-lbl">Respondidas</div></div>
+      <div class="sum-item"><div class="sum-val" style="color:var(--green)">${st.correct}</div><div class="sum-lbl">Correctas</div></div>
+      <div class="sum-item"><div class="sum-val" style="color:var(--yellow)">${prec}%</div><div class="sum-lbl">Precisión</div></div>
+    </div>
+    <button class="btn-main" onclick="startQuiz('${curPid}',false)" style="margin-top:0;">▶ Iniciar Práctica (${dbp.qs.length} preguntas)</button>
+    <button class="btn-main" onclick="startQuiz('${curPid}',true)" style="background:var(--surface);border:1px solid var(--border);color:var(--text);margin-top:8px;">🔁 Solo preguntas fallidas</button>`;
+}
+
+function startQuiz(pid, failedOnly){
+  const dbp=DB.pilares.find(x=>x.id===pid);
+  let qs=[...dbp.qs];
+  if(failedOnly){
+    const ps=ST[pid]||{};
+    const failed=Object.keys(ps.a||{}).filter(k=>!ps.a[k]);
+    if(!failed.length){alert('¡No tienes preguntas fallidas en este pilar!');return;}
+    qs=failed.map(k=>dbp.qs[parseInt(k)]).filter(Boolean);
+  }
+  quiz={pid,qs:qs.sort(()=>Math.random()-0.5),idx:0,correct:0,answered:0};
+  renderQ();
+}
+
+function examAll(){
+  let all=[];
+  DB.pilares.forEach(p=>{
+    const n=Math.max(3,Math.round(p.qs.length*0.4));
+    all=all.concat([...p.qs].sort(()=>Math.random()-0.5).slice(0,n));
+  });
+  quiz={pid:'all',qs:all.sort(()=>Math.random()-0.5),idx:0,correct:0,answered:0};
+  curPid='all'; curMode='p';
+  document.getElementById('ttitle').textContent='Examen Simulado';
+  document.getElementById('tbk').style.display='block';
+  document.getElementById('tbadge').style.display='none';
+  document.getElementById('mtabs').style.display='none';
+  navStack=[{type:'pilar',pid:'all',mode:'p'}];
+  showSc('pilar');
+  renderQ();
+}
+
+function renderQ(){
+  if(quiz.idx>=quiz.qs.length){renderResult();return;}
+  const q=quiz.qs[quiz.idx];
+  const pct=Math.round(quiz.idx/quiz.qs.length*100);
+  document.getElementById('pcontent').innerHTML=`
+    <div class="qhdr">
+      <button class="btn-bk" onclick="goBack()">← Salir</button>
+      <div class="qpw">
+        <div class="qbar"><div class="qbar-fill" style="width:${pct}%"></div></div>
+        <div class="qcnt">${quiz.idx+1}/${quiz.qs.length} · ✓${quiz.correct}</div>
+      </div>
+    </div>
+    <div class="qtag">${q.pilar}</div>
+    <div class="qtext">${q.text}</div>
+    <div class="qopts" id="qopts">
+      ${q.opts.map((o,i)=>`<div class="qopt" id="op${i}" onclick="pickOpt(${i},${q.correct})">
+        <span class="ol">${String.fromCharCode(65+i)}</span><span>${o}</span></div>`).join('')}
+    </div>
+    <div class="qexp" id="qexp">${q.exp}</div>
+    <button class="btn-next" id="bnext" onclick="nextQ()">Siguiente →</button>`;
+}
+
+function pickOpt(sel,correct){
+  document.querySelectorAll('.qopt').forEach(o=>{o.classList.add('dis');o.onclick=null;});
+  const ok=sel===correct;
+  document.getElementById('op'+sel).classList.add(ok?'ok':'fail');
+  if(!ok) document.getElementById('op'+correct).classList.add('rev');
+  document.getElementById('qexp').classList.add('show');
+  document.getElementById('bnext').classList.add('show');
+  quiz.answered++; if(ok) quiz.correct++;
+  if(quiz.pid!=='all'){
+    if(!ST[quiz.pid]) ST[quiz.pid]={a:{}};
+    if(!ST[quiz.pid].a) ST[quiz.pid].a={};
+    const ri=DB.pilares.find(x=>x.id===quiz.pid)?.qs.indexOf(quiz.qs[quiz.idx]);
+    if(ri>=0){ST[quiz.pid].a[ri]=ok; save();}
+  }
+}
+function nextQ(){quiz.idx++;renderQ();}
+
+function renderResult(){
+  const pct=quiz.answered>0?Math.round(quiz.correct/quiz.answered*100):0;
+  const pass=pct>=70;
+  document.getElementById('pcontent').innerHTML=`
+    <div class="rescard">
+      <div class="respct" style="color:${pass?'var(--green)':'var(--red)'}">${pct}%</div>
+      <div class="reslbl" style="color:${pass?'var(--green)':'var(--red)'}">${pass?'✓ ¡Aprobado!':'✗ Sigue practicando'}</div>
+      <div class="resrow">
+        <div class="rri"><div class="rrv" style="color:var(--green)">${quiz.correct}</div><div class="rrl">Correctas</div></div>
+        <div class="rri"><div class="rrv" style="color:var(--red)">${quiz.answered-quiz.correct}</div><div class="rrl">Incorrectas</div></div>
+        <div class="rri"><div class="rrv">${quiz.answered}</div><div class="rrl">Total</div></div>
+      </div>
+      <button class="btn-retry" onclick="startQuiz('${quiz.pid}',false)">↺ Repetir</button>
+      <button class="btn-home" onclick="goBack()">← Volver</button>
+    </div>`;
+}
+
+// ── STATS ─────────────────────────────────────────────────────────────────────
+function buildStats(){
+  return DB.pilares.map(p=>{
+    const cp=CONTENT.pilares.find(x=>x.id===p.id)||{color:'#888',nombre:p.id};
+    const st=gps(p.id);
+    const pct=st.answered>0?Math.round(st.correct/st.answered*100):0;
+    const prog=Math.round(st.answered/Math.max(p.qs.length,1)*100);
+    return `<div class="spc">
+      <div class="sph"><div class="spd" style="background:${cp.color}"></div>
+      <div class="spn">${cp.nombre}</div>
+      <div class="spp" style="color:${cp.color}">${pct}%</div></div>
+      <div class="spbar"><div class="spfill" style="width:${prog}%;background:${cp.color}"></div></div>
+      <div class="sprow">
+        <div class="spstat"><div class="spsv">${st.answered}</div><div class="spsl">Respondidas</div></div>
+        <div class="spstat"><div class="spsv" style="color:var(--green)">${st.correct}</div><div class="spsl">Correctas</div></div>
+        <div class="spstat"><div class="spsv">${p.qs.length}</div><div class="spsl">Total</div></div>
+      </div>
+    </div>`;
+  }).join('')+`<button class="btn-reset" onclick="resetAll()">🗑 Reiniciar estadísticas</button>`;
+}
+function resetAll(){
+  if(confirm('¿Reiniciar todas las estadísticas?')){
+    localStorage.removeItem('cmrp3');ST={};navTo('stats');
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderHome();
+</script>
+<!-- Material de estudio de elaboración propia basado en el SMRP Body of Knowledge público. No es material oficial de SMRP ni reproduce preguntas del examen real. Solo para uso personal de estudio. -->
+</body>
+</html>
